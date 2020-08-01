@@ -1,6 +1,6 @@
 <template>
-  <div class="main">
-    <router-view></router-view>
+  <div>
+    list
   </div>
 </template>
 
@@ -18,7 +18,5 @@ export default {
 </script>
 
 <style lang='scss' scoped>
-  .main {
-    margin-top: 15px;
-  }
+
 </style>

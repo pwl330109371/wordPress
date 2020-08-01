@@ -13,7 +13,7 @@
           </el-input>
         </div>
         <div class="head-add-article">
-          <el-button type="primary">写文章<i class="el-icon-edit el-icon--right"></i></el-button>
+          <el-button type="primary" @click="addArticle">写文章<i class="el-icon-edit el-icon--right"></i></el-button>
         </div>
         <div class="head-notice"><i class="el-icon-message-solid"></i></div>
         <div class="hand-btn">
@@ -47,6 +47,10 @@ export default {
     showDialog (type) {
       this.type = type
       this.$refs.handDialog.showDialog()
+    },
+    // 发布文章
+    addArticle () {
+      this.$router.push('/addArticle')
     }
   }
 }
@@ -54,6 +58,7 @@ export default {
 
 <style lang='scss' scoped>
   .headers{
+    position: sticky;
     overflow: hidden;
     background: #fff;
     height: 60px;
