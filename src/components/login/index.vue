@@ -6,11 +6,11 @@
           <el-input type="username" placeholder='请输入用户名' v-model="ruleForm.username" autocomplete="off"></el-input>
         </el-form-item>
         <el-form-item label="密码" prop="passw">
-          <el-input type="password" placeholder='请输入密码' v-model="ruleForm.password" autocomplete="off"></el-input>
+          <el-input type="password" placeholder='请输入密码' @keydown.enter.native="submitForm('ruleForm')" v-model="ruleForm.password" autocomplete="off"></el-input>
         </el-form-item>
         <el-form-item>
           <div class="text-right">
-            <el-button type="primary" @click="submitForm('ruleForm')">提交</el-button>
+            <el-button type="primary" :loading="isLoading" @click="submitForm('ruleForm')">提交</el-button>
             <el-button @click="resetForm('ruleForm')">重置</el-button>
           </div>
         </el-form-item>
@@ -47,6 +47,7 @@ export default {
       }
     }
     return {
+      isLoading: false,
       ruleForm: {
         name: '',
         password: ''
@@ -65,6 +66,7 @@ export default {
     submitForm (formName) {
       this.$refs[formName].validate(async (valid) => {
         if (valid) {
+          this.isLoading = true
           const params = {
             name: this.ruleForm.username,
             password: this.ruleForm.password
@@ -79,8 +81,10 @@ export default {
           } else {
             this.$message.error(data.msg)
           }
+          this.isLoading = false
         } else {
           console.log('error submit!!')
+          this.isLoading = false
           return false
         }
       })

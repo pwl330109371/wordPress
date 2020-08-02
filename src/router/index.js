@@ -32,6 +32,14 @@ const routes = [
           title: '项目'
         },
         component: () => import('@/views/myProject/')
+      },
+      {
+        path: '/addArticle',
+        name: '/addArticle',
+        meta: {
+          title: '写文章'
+        },
+        component: () => import('@/views/addArticle/')
       }
     ]
   },

@@ -16,7 +16,7 @@ const serve = axios.create({
 serve.interceptors.request.use(
   config => {
     if (getCookie('token')) {
-      config.headers.Authorization = getCookie()
+      config.headers.Authorization = getCookie('token')
     }
     console.log(config.method.toLowerCase())
     // 这里可以自定义一些config 配置
@@ -24,7 +24,6 @@ serve.interceptors.request.use(
       // config.headers['Content-Type'] = 'application/x-www-form-urlencoded;charset=utf-8'
       config.headers['Content-Type'] = 'application/json'
     }
-
     if (/application\/x-www-form-urlencoded/.test(config.headers['Content-Type']) && typeof config.data === 'object') {
       config.data = qs.stringify(config.data, { arrayFormat: 'repeat' })
     }

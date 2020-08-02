@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="main-container">
     <router-view></router-view>
   </div>
 </template>
@@ -18,5 +18,7 @@ export default {
 </script>
 
 <style lang='scss' scoped>
-
+  .main-container {
+    margin-top: 15px;
+  }
 </style>

@@ -15,9 +15,11 @@
 </template>
 
 <script>
+import { getArticleList } from '@/api/article'
 export default {
   data () {
     return {
+      articleList: [],
       count: 10,
       loading: false,
       immediate: true
@@ -31,7 +33,14 @@ export default {
       return this.loading || this.noMore
     }
   },
+  mounted () {
+    this.getArticleList()
+  },
   methods: {
+    async getArticleList () {
+      const { data } = await getArticleList()
+      this.articleList = data
+    },
     load () {
       this.loading = true
       setTimeout(() => {
