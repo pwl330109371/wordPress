@@ -35,11 +35,19 @@ const routes = [
       },
       {
         path: '/addArticle',
-        name: '/addArticle',
+        name: 'addArticle',
         meta: {
           title: '写文章'
         },
         component: () => import('@/views/addArticle/')
+      },
+      {
+        path: '/articleDetail',
+        name: 'articleDetail',
+        meta: {
+          title: '资讯详情'
+        },
+        component: () => import('@/views/articleDetail/')
       }
     ]
   },
