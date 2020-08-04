@@ -59,6 +59,9 @@ export default {
     handDialog,
     Menu
   },
+  mounted () {
+    console.log(this.userInfo)
+  },
   methods: {
     showDialog (type) {
       this.type = type
@@ -107,9 +110,13 @@ export default {
             margin-right: 10px;
           }
         }
-        .user-avatar img{
+        .user-avatar {
           width: 30px;
           height: 30px;
+        }
+        .user-avatar img{
+          width: 100%;
+          height: 100%;
           border-radius: 50%;
           cursor: pointer;
         }
