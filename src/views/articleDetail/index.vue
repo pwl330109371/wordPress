@@ -1,18 +1,19 @@
 <template>
-  <div></div>
+  <div class="articleDetail">
+    详情
+  </div>
 </template>
 
 <script>
 export default {
-  name: '',
   data () {
-	return {}
+    return {
+      msg: ''
+    }
   },
-  computed: {
-  },
-  watch: {
-  },
-  methods: {}
+  methods: {
+
+  }
 }
 </script>
 

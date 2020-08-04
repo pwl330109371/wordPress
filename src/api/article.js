@@ -8,9 +8,10 @@ export function addArticle (data) {
   })
 }
 
-export function getArticleList () {
+export function getArticleList (data) {
   return serve({
     url: '/api/article/list',
-    method: 'GET'
+    method: 'POST',
+    data
   })
 }

@@ -28,7 +28,7 @@
             accept="image/jpeg,image/gif,image/png,image/bmp"
             :before-upload="beforeAvatarUpload"
             list-type="picture-card"
-            :auto-upload="true"
+            :auto-upload="false"
             :file-list="fileList"
             :http-request="uploadImg" ref="upload">
             <i class="el-icon-plus"></i>
@@ -57,7 +57,7 @@
 <script>
 import Tinymce from '@/components/Tinymce'
 import { addArticle } from '@/api/article'
-// import { uploadImgs } from '@/api/upload'
+import { uploadImgs } from '@/api/upload'
 export default {
   components: {
     Tinymce
@@ -83,17 +83,17 @@ export default {
     }
   },
   mounted () {
-
   },
   methods: {
+    // 发布文章
     async saveClick (formName) {
       this.$refs[formName].validate(async (valid) => {
         if (valid) {
-          // this.$refs.upload.submit()
-          // this.fileData.append('modelType', 1)
-          // await uploadImgs(this.fileData).then((res) => {
-          //   this.fileInfo = res.data
-          // })
+          this.$refs.upload.submit()
+          await uploadImgs(this.fileData).then((res) => {
+            console.log(res)
+            this.fileInfo = res.data.filename
+          })
           const params = {
             title: this.form.title, // 标题
             author: this.form.author, // 发布人
@@ -111,16 +111,17 @@ export default {
         }
       })
     },
+    // 图片上传前
     beforeAvatarUpload (file) {
-      const isJPG = file.type === 'image/jpeg' || 'image/jpeg' || 'image/jpeg'
-      const isLt2M = file.size / 1024 / 1024 < 5
+      const isJPG = file.type === 'image/jpeg' || 'image/jpg' || 'image/png'
+      const isLt5M = file.size / 1024 / 1024 < 5
       if (!isJPG) {
         this.$message.error('上传头像图片只能是 /jpeg/png/jpeg 格式!')
       }
-      if (!isLt2M) {
+      if (!isLt5M) {
         this.$message.error('上传头像图片大小不能超过 5MB!')
       }
-      return isJPG && isLt2M
+      return isJPG && isLt5M
     },
     uploadImg (file) {
       //  console.log(file);

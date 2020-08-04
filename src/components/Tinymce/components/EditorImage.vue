@@ -4,7 +4,7 @@
       upload
     </el-button>
     <el-dialog :visible.sync="dialogVisible">
-      <el-upload
+      <!-- <el-upload
         :multiple="true"
         :file-list="fileList"
         :show-file-list="true"
@@ -12,12 +12,22 @@
         :on-success="handleSuccess"
         :before-upload="beforeUpload"
         class="editor-slide-upload"
-        action="https://httpbin.org/post"
         list-type="picture-card"
       >
-        <el-button size="small" type="primary">
-          Click upload
-        </el-button>
+      </el-upload> -->
+      <el-upload
+        class="avatar"
+        multiple
+        :class='fileData != {} > 0 ? "active" : "" '
+        action="1"
+        :limit='limit'
+        accept="image/jpeg,image/gif,image/png,image/bmp"
+        :before-upload="beforeAvatarUpload"
+        list-type="picture-card"
+        :auto-upload="false"
+        :file-list="fileList"
+        :http-request="uploadImg" ref="upload">
+        <i class="el-icon-plus"></i>
       </el-upload>
       <el-button @click="dialogVisible = false">
         Cancel
@@ -31,7 +41,7 @@
 
 <script>
 // import { getToken } from 'api/qiniu'
-
+import { uploadImgs } from '@/api/upload'
 export default {
   name: 'EditorSlideUpload',
   props: {
@@ -42,60 +52,49 @@ export default {
   },
   data () {
     return {
+      limit: 1,
+      fileList: [],
+      fileData: '',
+      fileId: '',
+      fileInfo: [],
       dialogVisible: false,
-      listObj: {},
-      fileList: []
+      listObj: {}
     }
   },
   methods: {
     checkAllSuccess () {
       return Object.keys(this.listObj).every(item => this.listObj[item].hasSuccess)
     },
+    // 图片上传前
+    beforeAvatarUpload (file) {
+      const isJPG = file.type === 'image/jpeg' || 'image/jpg' || 'image/png'
+      const isLt5M = file.size / 1024 / 1024 < 5
+      if (!isJPG) {
+        this.$message.error('上传头像图片只能是 /jpeg/png/jpeg 格式!')
+      }
+      if (!isLt5M) {
+        this.$message.error('上传头像图片大小不能超过 5MB!')
+      }
+      return isJPG && isLt5M
+    },
+    async uploads () {
+      await uploadImgs(this.fileData).then((res) => {
+        console.log(res)
+        this.fileInfo.push(res.data.filename)
+      })
+    },
     handleSubmit () {
-      const arr = Object.keys(this.listObj).map(v => this.listObj[v])
+      const arr = Object.keys(this.fileInfo).map(v => this.fileInfo[v])
       if (!this.checkAllSuccess()) {
         this.$message('Please wait for all images to be uploaded successfully. If there is a network problem, please refresh the page and upload again!')
         return
       }
+      this.$refs.upload.submit()
+
       this.$emit('successCBK', arr)
       this.listObj = {}
       this.fileList = []
       this.dialogVisible = false
-    },
-    handleSuccess (response, file) {
-      const uid = file.uid
-      const objKeyArr = Object.keys(this.listObj)
-      for (let i = 0, len = objKeyArr.length; i < len; i++) {
-        if (this.listObj[objKeyArr[i]].uid === uid) {
-          this.listObj[objKeyArr[i]].url = response.files.file
-          this.listObj[objKeyArr[i]].hasSuccess = true
-          return
-        }
-      }
-    },
-    handleRemove (file) {
-      const uid = file.uid
-      const objKeyArr = Object.keys(this.listObj)
-      for (let i = 0, len = objKeyArr.length; i < len; i++) {
-        if (this.listObj[objKeyArr[i]].uid === uid) {
-          delete this.listObj[objKeyArr[i]]
-          return
-        }
-      }
-    },
-    beforeUpload (file) {
-      const _self = this
-      const _URL = window.URL || window.webkitURL
-      const fileName = file.uid
-      this.listObj[fileName] = {}
-      return new Promise((resolve, reject) => {
-        const img = new Image()
-        img.src = _URL.createObjectURL(file)
-        img.onload = function () {
-          _self.listObj[fileName] = { hasSuccess: false, uid: file.uid, width: this.width, height: this.height }
-        }
-        resolve(true)
-      })
     }
   }
 }

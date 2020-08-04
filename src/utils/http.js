@@ -5,6 +5,8 @@
 import axios from 'axios'
 import qs from 'qs'
 import { getCookie } from '@/utils/auth'
+import { MessageBox } from 'element-ui'
+import store from '@/store'
 // 设置axios请求默认配置
 const serve = axios.create({
   baseURL: '', // api的base_url前缀
@@ -38,6 +40,7 @@ serve.interceptors.request.use(
 // axios响应拦截
 serve.interceptors.response.use(
   response => {
+    console.log(response)
     const res = response
     if (res.status === 200) {
       return res
@@ -46,7 +49,25 @@ serve.interceptors.response.use(
     }
   },
   error => {
-    Promise.reject(error)
+    if (error.response) {
+      switch (error.response.status) {
+        case 401:
+          // 返回 401 清除token信息并跳转到登录页面
+          console.log('token 失效')
+          MessageBox.confirm('您登录时间过长，请重新返回登录页面进行登录', '确定登出', {
+            confirmButtonText: '重新登录',
+            showCancelButton: false,
+            closeOnClickModal: false,
+            showClose: false,
+            closeOnPressEscape: false,
+            type: 'warning'
+          }).then(() => {
+            store.dispatch('user/loginOut').then(() => {
+            })
+          })
+      }
+    }
+    return Promise.reject(error.response.data) // 返回接口返回的错误信息
   }
 )
 

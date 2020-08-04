@@ -39,18 +39,21 @@ export default {
   data () {
     return {
       articleList: [],
-      count: 10,
+      pageSize: 10,
+      currentPage: 1,
+      noData: false, // 是否能加载
+      tag: '', // 根据标签分类查询
+      keyword: '', // 模糊搜索
       loading: false,
-      immediate: true
+      immediate: false
     }
   },
   computed: {
     noMore () {
-      return this.count >= 10
+      return this.noData
     },
     disabled () {
-      return true
-      // return this.loading || this.noMore
+      return this.loading || this.noMore
     }
   },
   mounted () {
@@ -58,14 +61,28 @@ export default {
   },
   methods: {
     async getArticleList () {
-      const { data } = await getArticleList()
-      this.articleList = data
+      const params = {
+        pageSize: this.pageSize,
+        currentPage: this.currentPage
+        // keyword: this.keyword,
+        // tag: this.tag
+      }
+      const { data } = await getArticleList(params)
+      const articleList = data.list
+      this.loading = false // 请求到数据后才能继续加载
+      console.log(articleList)
+      if (articleList.length === 0) {
+        this.noData = true
+        return
+      }
+      this.articleList = this.articleList.concat(articleList)
+      console.log(this.articleList)
     },
     load () {
       this.loading = true
       setTimeout(() => {
-        this.count += 2
-        this.loading = false
+        this.currentPage++
+        this.getArticleList()
       }, 500)
     }
   },

@@ -41,7 +41,9 @@ export function parseTime (time, cFormat) {
 }
 
 export function formatTime (time, option) {
+  const d = new Date(time)
   const now = Date.now()
+
   const diff = (now - time) / 1000
 
   if (diff < 30) {
@@ -58,14 +60,14 @@ export function formatTime (time, option) {
     return parseTime(time, option)
   } else {
     return (
-      time.getMonth() +
+      d.getMonth() +
       1 +
       '月' +
-      time.getDate() +
+      d.getDate() +
       '日' +
-      time.getHours() +
+      d.getHours() +
       '时' +
-      time.getMinutes() +
+      d.getMinutes() +
       '分'
     )
   }
