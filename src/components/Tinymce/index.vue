@@ -123,6 +123,18 @@ export default {
         toolbar: this.toolbar.length > 0 ? this.toolbar : toolbar,
         menubar: this.menubar,
         plugins: plugins,
+        codesample_languages: [
+          { text: 'HTML/XML', value: 'markup' },
+          { text: 'JavaScript', value: 'javascript' },
+          { text: 'CSS', value: 'css' },
+          { text: 'PHP', value: 'php' },
+          { text: 'Ruby', value: 'ruby' },
+          { text: 'Python', value: 'python' },
+          { text: 'Java', value: 'java' },
+          { text: 'C', value: 'c' },
+          { text: 'C#', value: 'csharp' },
+          { text: 'C++', value: 'cpp' }
+        ],
         end_container_on_empty_block: true,
         powerpaste_word_import: 'clean',
         code_dialog_height: 450,

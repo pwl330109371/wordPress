@@ -19,8 +19,8 @@
       </el-row>
       <el-row class="demo-autocomplete">
         <el-col :span="12">
-          <el-form-item label="选择分类" prop="fTag">
-            <el-select v-model="fTagId" @change="selectTag" clearable placeholder="请选择">
+          <el-form-item label="选择分类" prop="fTagId">
+            <el-select v-model="form.fTagId" @change="selectTag" clearable placeholder="请选择">
               <el-option
                 v-for="item in fTagList"
                 :key="item._id"
@@ -31,8 +31,8 @@
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item label="二级分类" prop="cTag">
-            <el-select v-model="cTagId" multiple placeholder="请选择">
+          <el-form-item label="二级分类" prop="cTagId">
+            <el-select v-model="form.cTagId" multiple placeholder="请选择">
               <el-option
                 v-for="item in cTagList"
                 :key="item._id"
@@ -97,8 +97,6 @@ export default {
       fileList: [], // 图片列表
       fTagList: [], // 一级标签
       cTagList: [], // 二级标签
-      fTagId: '', // 一级选中的id
-      cTagId: [], // 二级选中的List
       fileData: '',
       fileId: '',
       fileInfo: '',
@@ -106,11 +104,13 @@ export default {
         title: '', // 标题
         author: '', // 作者
         content: '', // 内容
-        make: '' // 描述
+        make: '', // 描述
+        fTagId: '', // 一级选中的id
+        cTagId: [] // 二级选中的List
       },
       rule: {
-        fTag: [{ required: true, message: '请选择一级分类', trigger: 'blur' }],
-        cTag: [{ required: true, message: '请选择二级分类', trigger: 'blur' }],
+        fTagId: [{ required: true, message: '请选择一级分类', trigger: 'blur' }],
+        cTagId: [{ required: true, message: '请选择二级分类', trigger: 'blur' }],
         title: [{ required: true, message: '标题不能为空', trigger: 'blur' }],
         author: [{ required: true, message: '作者不能为空', trigger: 'blur' }],
         content: [{ required: true, message: '内容不能为空', trigger: 'blur' }]
@@ -123,8 +123,8 @@ export default {
   methods: {
     // 选中一级分类
     selectTag (e) {
-      this.fTagId = e
-      this.cTagId = [] // 切换重置已经选中的标签
+      this.form.fTagId = e
+      this.form.cTagId = [] // 切换重置已经选中的标签
       this.getTagChildList(e)
     },
     // 获取一级分类
@@ -157,6 +157,7 @@ export default {
             title: this.form.title, // 标题
             author: this.form.author, // 发布人
             articleImg: this.fileInfo, // 封面
+            tagList: this.form.cTagId, // 标签
             describe: this.form.make, // 简介
             content: this.form.content // 资讯内容
           }

@@ -68,7 +68,26 @@ export default {
       this.$refs.handDialog.showDialog()
     },
     addArticle () {
-      this.$router.push('/addArticle')
+      if (this.userInfo) {
+        this.$router.push('/addArticle')
+      } else {
+        this.open()
+      }
+    },
+    // 打开模态弹窗
+    open () {
+      this.$confirm('请先进行登录, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.showDialog(1)
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消'
+        })
+      })
     },
     handClick (e) {
       this.$store.dispatch('user/loginOut')

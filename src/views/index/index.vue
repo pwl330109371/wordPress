@@ -16,6 +16,7 @@
               <span>/javascript#</span>
             </div>
             <div class="aticle-title">{{item.title}}</div>
+            <div v-html="item.content"></div>
             <div class="aticle-share">
               <span><i class="el-icon-thumb"></i>17</span>
               <span><i class="el-icon-chat-dot-square"></i>17</span>
