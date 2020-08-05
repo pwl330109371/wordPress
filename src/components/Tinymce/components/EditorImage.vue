@@ -26,7 +26,7 @@
         list-type="picture-card"
         :auto-upload="false"
         :file-list="fileList"
-        :http-request="uploadImg" ref="upload">
+        :http-request="uploadSuccess" ref="upload">
         <i class="el-icon-plus"></i>
       </el-upload>
       <el-button @click="dialogVisible = false">
@@ -82,6 +82,11 @@ export default {
         console.log(res)
         this.fileInfo.push(res.data.filename)
       })
+    },
+    uploadSuccess (file) {
+      //  console.log(file);
+      this.fileData = new FormData()
+      this.fileData.append('file', file.file)
     },
     handleSubmit () {
       const arr = Object.keys(this.fileInfo).map(v => this.fileInfo[v])

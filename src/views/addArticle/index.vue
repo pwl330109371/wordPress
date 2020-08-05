@@ -17,6 +17,33 @@
           </el-form-item>
         </el-col>
       </el-row>
+      <el-row class="demo-autocomplete">
+        <el-col :span="12">
+          <el-form-item label="选择分类" prop="fTag">
+            <el-select v-model="fTagId" @change="selectTag" clearable placeholder="请选择">
+              <el-option
+                v-for="item in fTagList"
+                :key="item._id"
+                :label="item.name"
+                :value="item._id">
+              </el-option>
+            </el-select>
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item label="二级分类" prop="cTag">
+            <el-select v-model="cTagId" multiple placeholder="请选择">
+              <el-option
+                v-for="item in cTagList"
+                :key="item._id"
+                multiple-limit=’2‘
+                :label="item.name"
+                :value="item._id">
+              </el-option>
+            </el-select>
+          </el-form-item>
+        </el-col>
+      </el-row>
       <el-form-item label="封面和摘要">
         <div class="bottomMiddle" >
           <el-upload
@@ -30,7 +57,8 @@
             list-type="picture-card"
             :auto-upload="false"
             :file-list="fileList"
-            :http-request="uploadImg" ref="upload">
+            :http-request="uploadSuccess"
+            ref="upload">
             <i class="el-icon-plus"></i>
           </el-upload>
           <el-input
@@ -56,26 +84,33 @@
 
 <script>
 import Tinymce from '@/components/Tinymce'
-import { addArticle } from '@/api/article'
+import { getTagist, getTagChildList } from '@/api/tag'
 import { uploadImgs } from '@/api/upload'
+import { addArticle } from '@/api/article'
 export default {
   components: {
     Tinymce
   },
   data () {
     return {
-      limit: 1,
-      fileList: [],
+      limit: 1, // 图片上传数量
+      fileList: [], // 图片列表
+      fTagList: [], // 一级标签
+      cTagList: [], // 二级标签
+      fTagId: '', // 一级选中的id
+      cTagId: [], // 二级选中的List
       fileData: '',
       fileId: '',
       fileInfo: '',
       form: {
-        title: '',
-        author: '',
-        content: '',
-        make: ''
+        title: '', // 标题
+        author: '', // 作者
+        content: '', // 内容
+        make: '' // 描述
       },
       rule: {
+        fTag: [{ required: true, message: '请选择一级分类', trigger: 'blur' }],
+        cTag: [{ required: true, message: '请选择二级分类', trigger: 'blur' }],
         title: [{ required: true, message: '标题不能为空', trigger: 'blur' }],
         author: [{ required: true, message: '作者不能为空', trigger: 'blur' }],
         content: [{ required: true, message: '内容不能为空', trigger: 'blur' }]
@@ -83,8 +118,32 @@ export default {
     }
   },
   mounted () {
+    this.getTagist() // 获取一级分类
   },
   methods: {
+    // 选中一级分类
+    selectTag (e) {
+      this.fTagId = e
+      this.cTagId = [] // 切换重置已经选中的标签
+      this.getTagChildList(e)
+    },
+    // 获取一级分类
+    async getTagist () {
+      const { data } = await getTagist()
+      if (data.data.length === 0) {
+        return
+      }
+      this.fTagList = data.data
+      this.getTagChildList(this.fTagList[0]._id)
+    },
+    // 获取二级分类
+    async getTagChildList (id) {
+      const { data } = await getTagChildList(id)
+      if (data.data.length === 0) {
+        return
+      }
+      this.cTagList = data.data
+    },
     // 发布文章
     async saveClick (formName) {
       this.$refs[formName].validate(async (valid) => {
@@ -123,8 +182,7 @@ export default {
       }
       return isJPG && isLt5M
     },
-    uploadImg (file) {
-      //  console.log(file);
+    uploadSuccess (file) {
       this.fileData = new FormData()
       this.fileData.append('file', file.file)
     }
@@ -144,6 +202,11 @@ export default {
     height: 300px;
     .tinymce{
           border: 1px solid #DCDFE6;
+    }
+  }
+  .demo-autocomplete {
+    .el-select {
+      width: 100%;
     }
   }
   /deep/.bottomMiddle{
