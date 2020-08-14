@@ -8,9 +8,9 @@ import store from './store'
 import 'element-ui/lib/theme-chalk/index.css'
 import './style/reset.css'// 样式重置表
 import './style/media.scss' // 媒体查询
-
 import './utils/permission' // permission control
-
+import './style/prism.css'
+import 'highlight.js/styles/atom-one-dark.css'
 Vue.use(ElementUI)
 
 Vue.config.productionTip = false

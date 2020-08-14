@@ -13,7 +13,8 @@ const routes = [
         path: '/index',
         name: 'index',
         meta: {
-          title: '首页'
+          title: '首页',
+          keepAlive: true
         },
         component: () => import('@/views/index/')
       },
@@ -60,9 +61,9 @@ const routes = [
 
 const router = new VueRouter({
   mode: 'history',
-  scrollBehavior: () => ({
-    y: 0 // 每次跳转页面重置滚动高度
-  }),
+  // scrollBehavior: () => ({
+  //   y: 0 // 每次跳转页面重置滚动高度
+  // }),
   base: process.env.BASE_URL,
   routes
 })

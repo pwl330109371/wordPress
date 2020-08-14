@@ -49,17 +49,18 @@
           <el-upload
             class="avatar"
             multiple
-            :class='fileData != {} > 0 ? "active" : "" '
+            :class='fileList.length > 0 ? "active" : "" '
             action="1"
             :limit='limit'
-            accept="image/jpeg,image/gif,image/png,image/bmp"
-            :before-upload="beforeAvatarUpload"
+            accept="image/jpeg,image/jpg,image/png,image/bmp,image/webp,image/gif"
+            :on-change="beforeAvatarUpload"
+            :on-remove='handRemove'
             list-type="picture-card"
             :auto-upload="false"
             :file-list="fileList"
             :http-request="uploadSuccess"
             ref="upload">
-            <i class="el-icon-plus"></i>
+            <i class="el-icon-plus" v-if="fileList.length === 0"></i>
           </el-upload>
           <el-input
             class="thumn"
@@ -149,10 +150,13 @@ export default {
       this.$refs[formName].validate(async (valid) => {
         if (valid) {
           this.$refs.upload.submit()
-          await uploadImgs(this.fileData).then((res) => {
-            console.log(res)
-            this.fileInfo = res.data.filename
-          })
+          // 如果没有上传图片就不走上传图片的请求
+          if (this.fileList.length !== 0) {
+            await uploadImgs(this.fileData).then((res) => {
+              console.log(res)
+              this.fileInfo = res.data.filename
+            })
+          }
           const params = {
             title: this.form.title, // 标题
             author: this.form.author, // 发布人
@@ -161,8 +165,8 @@ export default {
             describe: this.form.make, // 简介
             content: this.form.content // 资讯内容
           }
-          const { stat } = await addArticle(params)
-          if (stat === 1) {
+          const { state } = await addArticle(params)
+          if (state === 200) {
             this.$message.success('创建成功!')
             // this.$router.push({ path:'information'})
             this.$refs[formName].resetFields()
@@ -172,7 +176,9 @@ export default {
       })
     },
     // 图片上传前
-    beforeAvatarUpload (file) {
+    beforeAvatarUpload (file, fileList) {
+      console.log(file, fileList)
+      this.fileList = fileList
       const isJPG = file.type === 'image/jpeg' || 'image/jpg' || 'image/png'
       const isLt5M = file.size / 1024 / 1024 < 5
       if (!isJPG) {
@@ -182,6 +188,10 @@ export default {
         this.$message.error('上传头像图片大小不能超过 5MB!')
       }
       return isJPG && isLt5M
+    },
+    // 删除图片
+    handRemove (file, fileList) {
+      this.fileList = fileList
     },
     uploadSuccess (file) {
       this.fileData = new FormData()
@@ -216,7 +226,7 @@ export default {
     align-items: center;
     .active {
       .el-upload--picture-card {
-          display: none;
+        display: none;
       }
     }
     .el-upload--picture-card {

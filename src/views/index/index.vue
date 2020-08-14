@@ -1,12 +1,12 @@
 <template>
-  <div class="main-center">
+  <div class="main-center" ref="mainCenter" @scroll="handleScroll">
     <div class="infinite-list-wrapper" >
       <ul
         class="infinite-list"
         infinite-scroll-immediate='immediate'
         v-infinite-scroll="load"
         infinite-scroll-disabled="disabled">
-        <li v-for="item in articleList" :key="item._id" class="infinite-list-item">
+        <li v-for="item in articleList" :key="item._id" class="infinite-list-item" @click="goArticleDetail(item._id)">
           <div class="aticle-left">
             <div class="user-info">
               <span>{{item.author}}#</span>
@@ -16,7 +16,6 @@
               <span>/javascript#</span>
             </div>
             <div class="aticle-title">{{item.title}}</div>
-            <div v-html="item.content"></div>
             <div class="aticle-share">
               <span><i class="el-icon-thumb"></i>17</span>
               <span><i class="el-icon-chat-dot-square"></i>17</span>
@@ -36,17 +35,21 @@
 <script>
 import { getArticleList } from '@/api/article'
 import { formatTime } from '@/utils'
+
+// import Prism from 'prismjs'
+
 export default {
   data () {
     return {
-      articleList: [],
+      articleList: [], // 资讯列表
       pageSize: 10,
       currentPage: 1,
       noData: false, // 是否能加载
       tag: '', // 根据标签分类查询
       keyword: '', // 模糊搜索
-      loading: false,
-      immediate: false
+      loading: false, // 是否加载中
+      immediate: false,
+      scroll: null // 记录滚动高度
     }
   },
   computed: {
@@ -60,7 +63,18 @@ export default {
   mounted () {
     this.getArticleList()
   },
+  activated () {
+    if (this.scroll > 0) {
+      this.$refs.mainCenter.scrollTo(0, this.scroll)
+      this.scroll = 0
+    }
+  },
   methods: {
+    // 获取当前容器的滚动位置
+    handleScroll () {
+      this.scroll = this.$refs.mainCenter.scrollTop
+    },
+    // 获取资讯列表页
     async getArticleList () {
       const params = {
         pageSize: this.pageSize,
@@ -71,13 +85,20 @@ export default {
       const { data } = await getArticleList(params)
       const articleList = data.list
       this.loading = false // 请求到数据后才能继续加载
-      console.log(articleList)
       if (articleList.length === 0) {
         this.noData = true
         return
       }
       this.articleList = this.articleList.concat(articleList)
-      console.log(this.articleList)
+    },
+    // 跳转到资讯详情
+    goArticleDetail (id) {
+      this.$router.push({
+        path: '/articleDetail',
+        query: {
+          articleId: id
+        }
+      })
     },
     load () {
       this.loading = true
@@ -89,7 +110,6 @@ export default {
   },
   filters: {
     fromDate: function (val) {
-      console.log(new Date(val).getTime())
       return formatTime(new Date(val).getTime())
     }
   }
@@ -97,6 +117,10 @@ export default {
 </script>
 
 <style lang='scss' scoped>
+  code {
+    white-space: pre-wrap !important;
+    word-wrap: break-word !important;
+  }
   .main-center {
     width: 960px;
     height: 800px;
@@ -118,7 +142,7 @@ export default {
       &:hover {
         background: rgba(227,231,236,.2);
       }
-      .aticle-left{
+      .aticle-left {
         flex: 1;
         .aticle-title {
           font-size: 20px;

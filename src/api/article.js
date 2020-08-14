@@ -15,3 +15,10 @@ export function getArticleList (data) {
     data
   })
 }
+
+export function getArticleDetail (id) {
+  return serve({
+    url: '/api/article/detail?id=' + id,
+    method: 'GET'
+  })
+}
