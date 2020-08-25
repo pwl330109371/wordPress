@@ -26,7 +26,10 @@
           </div>
         </li>
       </ul>
-      <p class="loading-text" v-if="loading">加载中...</p>
+      <p class="loading-text" v-if="loading">
+        <i class="el-icon-loading"></i>
+        加载中...
+      </p>
       <p v-if="noMore" class="no-more">没有更多了</p>
     </div>
   </div>
@@ -178,10 +181,8 @@ export default {
         }
       }
     }
-    .loading-text {
-      text-align: center;
-    }
-    .no-more {
+    .loading-text,.no-more {
+      padding: 10px;
       text-align: center;
     }
   }

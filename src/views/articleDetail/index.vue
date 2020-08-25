@@ -9,11 +9,12 @@
           <div class="user-name">{{userInfo.name}}</div>
           <div class="article-info">
             <span class="create-time">{{articleDetail.date | parseTime}}</span>
-            <span class="count">阅读 5684</span>
+            <span class="count">阅读 {{articleDetail.count}}</span>
           </div>
         </div>
-        <div class="follow">
-          <el-button type="success" plain size="mini">关注</el-button>
+        <div class="follow" v-if="userId !== userInfo.id">
+          <el-button type="success" size="mini" v-if="!articleDetail.isFollow" @click="addFollow">关注</el-button>
+          <el-button type="success" plain size="mini" v-else @click="canclFollow">取消关注</el-button>
         </div>
       </div>
       <div class="article-title">{{articleDetail.title}}</div>
@@ -34,7 +35,8 @@ import 'highlight.js/styles/atom-one-dark.css'
 import hljs from 'highlight.js'
 import { parseTime } from '@/utils'
 import { getArticleDetail } from '@/api/article'
-
+import { addFollow, canclFollow } from '@/api/follow'
+import { mapState } from 'vuex'
 const highlightCode = () => {
   const block = document.querySelectorAll('pre code')
   block.forEach((el) => {
@@ -44,6 +46,7 @@ const highlightCode = () => {
 export default {
   data () {
     return {
+      loading: true, // loading
       articleDetail: {}, // 详情数据
       userInfo: {} // 用户信息
     }
@@ -52,6 +55,11 @@ export default {
     const articleId = this.$route.query.articleId
     this.getArticleDetail(articleId)
     highlightCode()
+  },
+  computed: {
+    ...mapState({
+      userId: state => state.user.userInfo.id
+    })
   },
   updated () {
     highlightCode()
@@ -64,9 +72,38 @@ export default {
   methods: {
     // 获取详情数据
     async getArticleDetail (articleId) {
+      const loading = this.$loading({
+        lock: true,
+        text: 'Loading...',
+        spinner: 'el-icon-loading',
+        background: 'rgba(255, 255, 255, 0.8)'
+      })
       const { data } = await getArticleDetail(articleId)
       this.articleDetail = data
       this.userInfo = data.authorInfo
+      loading.close()
+    },
+    async addFollow () {
+      const params = {
+        userId: this.userId,
+        authorId: this.userInfo.id
+      }
+      const { data } = await addFollow(params)
+      if (data.state === 200) {
+        this.$message.success('关注成功!')
+        this.articleDetail.isFollow = true
+      }
+    },
+    async canclFollow () {
+      const params = {
+        userId: this.userId,
+        authorId: this.userInfo.id
+      }
+      const { data } = await canclFollow(params)
+      if (data.state === 200) {
+        this.$message.success('取消关注!')
+        this.articleDetail.isFollow = false
+      }
     }
   }
 }
@@ -121,6 +158,9 @@ export default {
     width: 240px;
     background: #fff;
     margin-left: 20px;
+  }
+  .el-icon-loading {
+    font-size: 20px;
   }
 }
 </style>

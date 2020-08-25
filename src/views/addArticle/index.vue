@@ -165,8 +165,8 @@ export default {
             describe: this.form.make, // 简介
             content: this.form.content // 资讯内容
           }
-          const { state } = await addArticle(params)
-          if (state === 200) {
+          const { data } = await addArticle(params)
+          if (data.state === 200) {
             this.$message.success('创建成功!')
             // this.$router.push({ path:'information'})
             this.$refs[formName].resetFields()

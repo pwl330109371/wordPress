@@ -6,7 +6,7 @@ export default {
   namespaced: true,
   state: {
     token: getCookie('token') || '',
-    userInfo: getCookie('userInfo') || ''
+    userInfo: JSON.parse(getCookie('userInfo')) || ''
   },
   mutations: {
     SetUserData (state, data) {
