@@ -22,3 +22,19 @@ export function getArticleDetail (id) {
     method: 'GET'
   })
 }
+
+export function addPraise (data) {
+  return serve({
+    url: '/api/praise/addPraise',
+    method: 'POST',
+    data
+  })
+}
+
+export function canclPraise (data) {
+  return serve({
+    url: '/api/praise/canclPraise',
+    method: 'POST',
+    data
+  })
+}
