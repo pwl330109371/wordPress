@@ -1,6 +1,6 @@
 <template>
   <div class="article-content">
-    <slider :article-id='articleId'></slider>
+    <slider :article-id='articleId' :article-detail='articleDetail' @uploadPraise='uploadPraise'></slider>
     <div class="article-detail">
       <div class="head">
         <div class="head-user">
@@ -113,6 +113,14 @@ export default {
         this.$message.success('取消关注!')
         this.articleDetail.isFollow = false
       }
+    },
+    uploadPraise (e) {
+      if (e === 1) {
+        this.articleDetail.isPraise = true
+      } else {
+        this.articleDetail.isPraise = false
+      }
+      this.articleDetail.praiseCount = this.articleDetail.praiseCount + e
     }
   }
 }
@@ -120,9 +128,11 @@ export default {
 
 <style lang='scss' scoped>
 .article-content {
+  display: flex;
   position: relative;
   .article-detail {
     display: flex;
+    flex: 1;
     height: 100%;
     .head {
       padding: 1rem;

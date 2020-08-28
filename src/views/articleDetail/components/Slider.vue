@@ -1,7 +1,10 @@
 <template>
   <div class="user-setting">
-    <el-badge :value="12" class="item">
-      <div class="praise" @click="praise">
+    <el-badge :value="articleDetail.praiseCount" class="item">
+      <div class="praise" @click="praise" v-if="!articleDetail.isPraise">
+        <i class="iconfont icon-good"></i>
+      </div>
+      <div class="praise active" @click="canclPraise" v-if="articleDetail.isPraise">
         <i class="iconfont icon-good"></i>
       </div>
     </el-badge>
@@ -19,10 +22,11 @@
 </template>
 
 <script>
-import { addPraise } from '@/api/article'
+import { addPraise, canclPraise } from '@/api/article'
 export default {
   props: {
-    articleId: String
+    articleId: String,
+    articleDetail: Object
   },
   name: 'slider',
   data () {
@@ -42,6 +46,17 @@ export default {
       const { data } = await addPraise(params)
       if (data.state === 200) {
         this.$message.success('操作成功')
+        this.$emit('uploadPraise', 1)
+      }
+    },
+    async canclPraise () {
+      const params = {
+        articleId: this.articleId
+      }
+      const { data } = await canclPraise(params)
+      if (data.state === 200) {
+        this.$message.success('操作成功')
+        this.$emit('uploadPraise', -1)
       }
     }
   }
@@ -50,9 +65,10 @@ export default {
 
 <style lang='scss' scoped>
 .user-setting {
-  position: fixed;
-  left: 110px;
+  position: absolute;
+  left: -110px;
   top: 16rem;
+  margin-right: 30px;
   /deep/.el-badge {
     display: block;
   }
@@ -74,6 +90,11 @@ export default {
       position: absolute;
       top: -15px;
       right: 0;
+    }
+  }
+  .active {
+    i {
+      color: #67C23A;
     }
   }
 }
