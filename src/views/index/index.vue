@@ -22,7 +22,7 @@
             </div>
           </div>
           <div class="aticle-right" v-if="item.articleImg">
-              <el-image :src="item.articleImg" lazy fit='cover'></el-image>
+              <el-image :src="'http://192.168.0.106:3000/upload/' + item.articleImg" lazy fit='contain'></el-image>
           </div>
         </li>
       </ul>
@@ -178,6 +178,12 @@ export default {
               margin-right: 3px;
             }
           }
+        }
+      }
+      .aticle-right {
+        height: 100px;
+        img {
+          height: 100%;
         }
       }
     }

@@ -38,3 +38,27 @@ export function canclPraise (data) {
     data
   })
 }
+
+export function addFavorite (data) {
+  return serve({
+    url: '/api/favorite/addFavorite',
+    method: 'POST',
+    data
+  })
+}
+
+export function canclFavorite (data) {
+  return serve({
+    url: '/api/favorite/canclFavorite',
+    method: 'POST',
+    data
+  })
+}
+
+export function isFavorite (params) {
+  return serve({
+    url: '/api/favorite/isFavorite',
+    method: 'GET',
+    params
+  })
+}

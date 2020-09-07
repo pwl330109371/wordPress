@@ -8,8 +8,11 @@
         <i class="iconfont icon-good"></i>
       </div>
     </el-badge>
-    <el-badge :value="12" class="item">
-      <div class="praise">
+    <el-badge  class="item">
+      <div class="praise" @click="addFavorite"  v-if="isFavoriteState === 2">
+        <i class="iconfont icon-collection"></i>
+      </div>
+      <div class="praise active" @click="canclFavorite"  v-if="isFavoriteState === 1">
         <i class="iconfont icon-collection"></i>
       </div>
     </el-badge>
@@ -22,7 +25,7 @@
 </template>
 
 <script>
-import { addPraise, canclPraise } from '@/api/article'
+import { addPraise, canclPraise, addFavorite, canclFavorite, isFavorite } from '@/api/article'
 export default {
   props: {
     articleId: String,
@@ -31,11 +34,15 @@ export default {
   name: 'slider',
   data () {
     return {
+      isFavoriteState: null // 是否收藏
     }
   },
   computed: {
   },
   watch: {
+  },
+  mounted () {
+    this.isFavorite() // 用户是否收藏
   },
   methods: {
     // 点赞
@@ -49,6 +56,7 @@ export default {
         this.$emit('uploadPraise', 1)
       }
     },
+    // 取消点赞
     async canclPraise () {
       const params = {
         articleId: this.articleId
@@ -58,6 +66,37 @@ export default {
         this.$message.success('操作成功')
         this.$emit('uploadPraise', -1)
       }
+    },
+    // 添加收藏
+    async addFavorite () {
+      const params = {
+        articleId: this.articleId
+      }
+      const { data } = await addFavorite(params)
+      if (data.state === 200) {
+        this.$message.success('操作成功')
+        // this.$emit('uploadPraise', -1)
+      }
+    },
+    // 取消收藏
+    async canclFavorite () {
+      const params = {
+        articleId: this.articleId
+      }
+      const { data } = await canclFavorite(params)
+      if (data.state === 200) {
+        this.$message.success('操作成功')
+        // this.$emit('uploadPraise', -1)
+      }
+    },
+    // 是否收藏
+    async isFavorite () {
+      const params = {
+        articleId: this.articleId
+      }
+      const { data } = await isFavorite(params)
+      this.isFavoriteState = data.data.state
+      console.log(this.isFavoriteState)
     }
   }
 }
