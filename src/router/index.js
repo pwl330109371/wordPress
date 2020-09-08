@@ -49,6 +49,24 @@ const routes = [
           title: '资讯详情'
         },
         component: () => import('@/views/articleDetail/')
+      },
+      {
+        path: '/userInfo',
+        name: 'userInfo',
+        meta: {
+          title: '个人中心'
+        },
+        component: () => import('@/views/userInfo/index')
+        // children: [
+        //   {
+        //     path: '/myArticle',
+        //     name: 'myArticle',
+        //     meta: {
+        //       title: '我的文章'
+        //     },
+        //     component: () => import('@/views/userInfo/myArticle/')
+        //   }
+        // ]
       }
     ]
   },

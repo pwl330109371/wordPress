@@ -22,3 +22,11 @@ export function getUserInfo () {
     method: 'GET'
   })
 }
+
+export function getMyArticle (params) {
+  return serve({
+    url: '/api/article/myArticle',
+    method: 'GET',
+    params
+  })
+}
