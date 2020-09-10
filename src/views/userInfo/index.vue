@@ -24,7 +24,7 @@
           </el-menu>
         </div>
         <div class="user-container-list">
-          <article-list v-if="activeIndex == 1 || activeIndex == 2 || activeIndex == 3"></article-list>
+          <article-list v-if="activeIndex == 1 || activeIndex == 2 || activeIndex == 3" :articleList='articleList'></article-list>
           <user-list v-if="activeIndex == 4 || activeIndex == 5"></user-list>
         </div>
       </div>
@@ -40,12 +40,13 @@
 import ArticleList from './components/ArticleList'
 import UserList from './components/UserList'
 import { mapState } from 'vuex'
-import { getMyArticle } from '@/api/user'
+import { getMyArticle, getMyFavorite, getMyPraise, getMyFollow } from '@/api/user'
 export default {
   name: '',
   data () {
     return {
-      activeIndex: '1'
+      activeIndex: '1',
+      articleList: [] // 数据列表
     }
   },
   components: {
@@ -59,14 +60,57 @@ export default {
   },
   watch: {
   },
+  mounted () {
+    this.getMyArticle()
+  },
   methods: {
     handleSelect (e) {
       console.log(e)
+      /**
+       * 1 获取我的文章列表
+       * 2 获取我的收藏列表
+       * 3 获取我的点赞列表
+       * 4 获取我的关注列表
+       * 5 获取我的粉丝列表
+       */
+      switch (e) {
+        case '1':
+          this.getMyArticle()
+          break
+        case '2':
+          this.getMyFavorite()
+          break
+        case '3':
+          this.getMyPraise()
+          break
+        case '4':
+          this.getMyFollow()
+          break
+        default:
+      }
       this.activeIndex = e
-      this.getMyArticle()
     },
+    // 获取我的文章列表
     async getMyArticle () {
       const { data } = await getMyArticle()
+      console.log(data)
+      this.articleList = data
+    },
+    // 获取我的收藏列表
+    async getMyFavorite () {
+      const { data } = await getMyFavorite()
+      console.log(data)
+      this.articleList = data.data
+    },
+    // 获取我的点赞列表
+    async getMyPraise () {
+      const { data } = await getMyPraise()
+      console.log(data)
+      this.articleList = data.data
+    },
+    // 获取我的关注列表
+    async getMyFollow () {
+      const { data } = await getMyFollow()
       console.log(data)
     }
   }

@@ -181,8 +181,9 @@ export default {
         }
       }
       .aticle-right {
+        width: 100px;
         height: 100px;
-        img {
+        .el-image {
           height: 100%;
         }
       }

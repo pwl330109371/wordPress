@@ -54,7 +54,8 @@ const routes = [
         path: '/userInfo',
         name: 'userInfo',
         meta: {
-          title: '个人中心'
+          title: '个人中心',
+          keepAlive: true
         },
         component: () => import('@/views/userInfo/index')
         // children: [
