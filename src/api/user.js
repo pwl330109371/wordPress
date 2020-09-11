@@ -1,5 +1,6 @@
 import serve from '@/utils/http'
 
+// 登录
 export function login (data) {
   return serve({
     url: '/api/users/login',
@@ -8,6 +9,7 @@ export function login (data) {
   })
 }
 
+// 注册
 export function register (data) {
   return serve({
     url: '/api/users/register',
@@ -16,6 +18,7 @@ export function register (data) {
   })
 }
 
+// 获取用户信息
 export function getUserInfo () {
   return serve({
     url: '/api/users/current',

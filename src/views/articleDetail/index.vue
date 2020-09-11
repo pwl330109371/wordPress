@@ -9,7 +9,7 @@
           <div class="user-name">{{userInfo.name}}</div>
           <div class="article-info">
             <span class="create-time">{{articleDetail.date | parseTime}}</span>
-            <span class="count">阅读 5684</span>
+            <span class="count">阅读 {{articleDetail.count}}</span>
           </div>
         </div>
         <div class="follow">

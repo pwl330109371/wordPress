@@ -11,7 +11,7 @@ import store from '@/store'
 const serve = axios.create({
   baseURL: '', // api的base_url前缀
   // baseURL: 'localhost:3000/api/', // api的base_url前缀
-  timeout: 1000 * 16 // 请求超时
+  timeout: 1000 * 30 // 请求超时
 })
 
 // request拦截器 请求前的拦截器
@@ -67,7 +67,7 @@ serve.interceptors.response.use(
           })
       }
     }
-    return Promise.reject(error.response.data) // 返回接口返回的错误信息
+    return Promise.reject(error) // 返回接口返回的错误信息
   }
 )
 
