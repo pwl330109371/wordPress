@@ -36,15 +36,19 @@
 </template>
 
 <script>
-import { getArticleList } from '@/api/article'
+// import { getArticleList } from '@/api/article'
 import { formatTime } from '@/utils'
 
 // import Prism from 'prismjs'
 
 export default {
+  props: {
+    articleList: {
+      type: Array
+    }
+  },
   data () {
     return {
-      articleList: [], // 资讯列表
       pageSize: 10,
       currentPage: 1,
       noData: false, // 是否能加载
@@ -64,7 +68,7 @@ export default {
     }
   },
   mounted () {
-    this.getArticleList()
+    // this.getArticleList()
   },
   activated () {
     if (this.scroll > 0) {
@@ -76,23 +80,6 @@ export default {
     // 获取当前容器的滚动位置
     handleScroll () {
       this.scroll = this.$refs.mainCenter.scrollTop
-    },
-    // 获取资讯列表页
-    async getArticleList () {
-      const params = {
-        pageSize: this.pageSize,
-        currentPage: this.currentPage
-        // keyword: this.keyword,
-        // tag: this.tag
-      }
-      const { data } = await getArticleList(params)
-      const articleList = data.list
-      this.loading = false // 请求到数据后才能继续加载
-      if (articleList.length === 0) {
-        this.noData = true
-        return
-      }
-      this.articleList = this.articleList.concat(articleList)
     },
     // 跳转到资讯详情
     goArticleDetail (id) {
@@ -107,7 +94,6 @@ export default {
       this.loading = true
       setTimeout(() => {
         this.currentPage++
-        this.getArticleList()
       }, 500)
     }
   },

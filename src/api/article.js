@@ -25,3 +25,43 @@ export function getArticleDetail (id) {
     method: 'GET'
   })
 }
+
+export function addPraise (data) {
+  return serve({
+    url: '/api/praise/addPraise',
+    method: 'POST',
+    data
+  })
+}
+
+export function canclPraise (data) {
+  return serve({
+    url: '/api/praise/canclPraise',
+    method: 'POST',
+    data
+  })
+}
+
+export function addFavorite (data) {
+  return serve({
+    url: '/api/favorite/addFavorite',
+    method: 'POST',
+    data
+  })
+}
+
+export function canclFavorite (data) {
+  return serve({
+    url: '/api/favorite/canclFavorite',
+    method: 'POST',
+    data
+  })
+}
+
+export function isFavorite (params) {
+  return serve({
+    url: '/api/favorite/isFavorite',
+    method: 'GET',
+    params
+  })
+}
