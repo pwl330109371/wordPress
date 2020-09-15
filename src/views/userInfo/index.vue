@@ -25,7 +25,7 @@
         </div>
         <div class="user-container-list">
           <article-list v-if="activeIndex == 1 || activeIndex == 2 || activeIndex == 3" :articleList='articleList'></article-list>
-          <user-list v-if="activeIndex == 4 || activeIndex == 5"></user-list>
+          <user-list v-if="activeIndex == 4 || activeIndex == 5" :follow-list='followList'></user-list>
         </div>
       </div>
     </div>
@@ -46,7 +46,8 @@ export default {
   data () {
     return {
       activeIndex: '1',
-      articleList: [] // 数据列表
+      articleList: [], // 数据列表
+      followList: [] // 用户列表
     }
   },
   components: {
@@ -112,6 +113,7 @@ export default {
     async getMyFollow () {
       const { data } = await getMyFollow()
       console.log(data)
+      this.followList = data.data
     }
   }
 }
