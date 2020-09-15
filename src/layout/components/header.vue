@@ -22,13 +22,13 @@
         </div>
         <div class="user-avatar" v-else>
           <el-dropdown trigger="click" placement='top' @command='handClick'>
-            <img src="https://user-gold-cdn.xitu.io/2020/5/23/1723f686c1cf68c0?imageView2/1/w/100/h/100/q/85/format/webp/interlace/1" alt="" srcset="">
+            <img :src="userInfo.avatar" alt="" srcset="">
             <el-dropdown-menu slot="dropdown">
-              <el-dropdown-item icon="el-icon-plus">写文章</el-dropdown-item>
-              <el-dropdown-item icon="el-icon-circle-plus">我的主页</el-dropdown-item>
-              <el-dropdown-item icon="el-icon-circle-plus-outline">我赞过的</el-dropdown-item>
-              <el-dropdown-item icon="el-icon-check">我的收藏集</el-dropdown-item>
-              <el-dropdown-item icon="el-icon-circle-check">设置</el-dropdown-item>
+              <el-dropdown-item icon="el-icon-plus" command='1'>写文章</el-dropdown-item>
+              <el-dropdown-item icon="el-icon-circle-plus" command='2'>我的主页</el-dropdown-item>
+              <el-dropdown-item icon="el-icon-circle-plus-outline" command='3'>我赞过的</el-dropdown-item>
+              <el-dropdown-item icon="el-icon-check" command='4'>我的收藏集</el-dropdown-item>
+              <el-dropdown-item icon="el-icon-circle-check" command='5'>设置</el-dropdown-item>
               <el-dropdown-item icon="el-icon-circle-check" command='6'>登出</el-dropdown-item>
             </el-dropdown-menu>
           </el-dropdown>
@@ -63,10 +63,12 @@ export default {
     console.log(this.userInfo)
   },
   methods: {
+    // 登录注册
     showDialog (type) {
       this.type = type
       this.$refs.handDialog.showDialog()
     },
+    // 发布文章
     addArticle () {
       if (this.userInfo) {
         this.$router.push('/addArticle')
@@ -89,8 +91,24 @@ export default {
         })
       })
     },
+    // 点击用户菜单栏
     handClick (e) {
-      this.$store.dispatch('user/loginOut')
+      console.log(e)
+      switch (parseInt(e)) {
+        case 1:
+          console.log(222)
+          this.addArticle()
+          break
+        case 2:
+          this.$router.push('/userInfo')
+          break
+        case 6:
+          this.$store.dispatch('user/loginOut')
+          break
+        default:
+          this.$router.push('/userInfo')
+          break
+      }
     }
   }
 }

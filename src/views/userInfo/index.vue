@@ -3,7 +3,7 @@
     <div class="user-left">
       <div class="user-info-head">
         <div class="user-avatar">
-          <img src="https://user-gold-cdn.xitu.io/2020/5/23/1723f686c1cf68c0?imageView2/1/w/180/h/180/q/85/format/webp/interlace/1" alt="" srcset="">
+          <img :src="userInfo.avatar" alt="" srcset="">
         </div>
         <div class="user-desc">
           <h3 class="user-name">{{userInfo.name}}</h3>
@@ -40,7 +40,7 @@
 import ArticleList from './components/ArticleList'
 import UserList from './components/UserList'
 import { mapState } from 'vuex'
-import { getMyArticle, getMyFavorite, getMyPraise, getMyFollow } from '@/api/user'
+import { getMyArticle, getMyFavorite, getMyPraise, getMyFollow, getMyFens } from '@/api/user'
 export default {
   name: '',
   data () {
@@ -86,6 +86,9 @@ export default {
         case '4':
           this.getMyFollow()
           break
+        case '5':
+          this.getMyFens()
+          break
         default:
       }
       this.activeIndex = e
@@ -111,6 +114,11 @@ export default {
     // 获取我的关注列表
     async getMyFollow () {
       const { data } = await getMyFollow()
+      console.log(data)
+    },
+    // 获取我的粉丝列表
+    async getMyFens () {
+      const { data } = await getMyFens()
       console.log(data)
     }
   }

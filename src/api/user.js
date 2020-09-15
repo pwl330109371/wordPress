@@ -58,3 +58,11 @@ export function getMyFollow () {
     method: 'GET'
   })
 }
+
+// 获取我的粉丝列表
+export function getMyFens () {
+  return serve({
+    url: '/api/follow/myFens',
+    method: 'GET'
+  })
+}
