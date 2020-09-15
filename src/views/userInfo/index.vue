@@ -16,16 +16,16 @@
       <div class="user-container">
         <div class="user-container-tab">
           <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" @select="handleSelect">
-            <el-menu-item index="1">我的文章</el-menu-item>
-            <el-menu-item index="2">我的收藏</el-menu-item>
-            <el-menu-item index="3">我的点赞</el-menu-item>
-            <el-menu-item index="4">我的关注</el-menu-item>
+            <el-menu-item index="1">用户文章</el-menu-item>
+            <el-menu-item index="2">用户收藏</el-menu-item>
+            <el-menu-item index="3">用户点赞</el-menu-item>
+            <el-menu-item index="4">用户关注</el-menu-item>
             <el-menu-item index="5">粉丝列表</el-menu-item>
           </el-menu>
         </div>
         <div class="user-container-list">
           <article-list v-if="activeIndex == 1 || activeIndex == 2 || activeIndex == 3" :articleList='articleList'></article-list>
-          <user-list v-if="activeIndex == 4 || activeIndex == 5"></user-list>
+          <user-list v-if="activeIndex == 4 || activeIndex == 5" :follow-list='followList'></user-list>
         </div>
       </div>
     </div>
@@ -40,13 +40,15 @@
 import ArticleList from './components/ArticleList'
 import UserList from './components/UserList'
 import { mapState } from 'vuex'
-import { getMyArticle, getMyFavorite, getMyPraise, getMyFollow, getMyFens } from '@/api/user'
+import { getUserInfo, getMyArticle, getMyFavorite, getMyPraise, getMyFollow, getMyFens } from '@/api/user'
 export default {
   name: '',
   data () {
     return {
       activeIndex: '1',
-      articleList: [] // 数据列表
+      userInfo: {}, // 用户信息
+      articleList: [], // 数据列表
+      followList: [] // 用户列表
     }
   },
   components: {
@@ -55,23 +57,29 @@ export default {
   },
   computed: {
     ...mapState({
-      userInfo: state => state.user.userInfo
-    })
+      user: state => state.user.userInfo
+    }),
+    userId () {
+      const userId = this.$route.query.userId
+      const uid = !userId ? this.user._id : userId
+      return uid
+    }
   },
   watch: {
   },
   mounted () {
+    this.getUserInfo()
     this.getMyArticle()
   },
   methods: {
     handleSelect (e) {
       console.log(e)
       /**
-       * 1 获取我的文章列表
-       * 2 获取我的收藏列表
-       * 3 获取我的点赞列表
-       * 4 获取我的关注列表
-       * 5 获取我的粉丝列表
+       * 1 获取用户文章列表
+       * 2 获取用户收藏列表
+       * 3 获取用户点赞列表
+       * 4 获取用户关注列表
+       * 5 获取用户粉丝列表
        */
       switch (e) {
         case '1':
@@ -93,33 +101,40 @@ export default {
       }
       this.activeIndex = e
     },
-    // 获取我的文章列表
+    // 获取用户信息
+    async getUserInfo () {
+      const { data } = await getUserInfo(this.userId)
+      this.userInfo = data
+    },
+    // 获取用户文章列表
     async getMyArticle () {
-      const { data } = await getMyArticle()
+      const { data } = await getMyArticle(this.userId)
       console.log(data)
       this.articleList = data
     },
-    // 获取我的收藏列表
+    // 获取用户收藏列表
     async getMyFavorite () {
-      const { data } = await getMyFavorite()
+      const { data } = await getMyFavorite(this.userId)
       console.log(data)
       this.articleList = data.data
     },
-    // 获取我的点赞列表
+    // 获取用户点赞列表
     async getMyPraise () {
-      const { data } = await getMyPraise()
+      const { data } = await getMyPraise(this.userId)
       console.log(data)
       this.articleList = data.data
     },
-    // 获取我的关注列表
+    // 获取用户关注列表
     async getMyFollow () {
-      const { data } = await getMyFollow()
+      const { data } = await getMyFollow(this.userId)
       console.log(data)
+      this.followList = data.data
     },
-    // 获取我的粉丝列表
+    // 获取用户粉丝列表
     async getMyFens () {
       const { data } = await getMyFens()
       console.log(data)
+      this.followList = data.data
     }
   }
 }

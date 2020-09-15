@@ -1,10 +1,10 @@
 <template>
   <div class="user-setting">
     <el-badge :value="articleDetail.praiseCount" class="item">
-      <div class="praise" @click="praise" v-if="!articleDetail.isPraise">
+      <div class="praise" @click="praise" v-if="isPrauseState === 2">
         <i class="iconfont icon-good"></i>
       </div>
-      <div class="praise active" @click="canclPraise" v-if="articleDetail.isPraise">
+      <div class="praise active" @click="canclPraise" v-if="isPrauseState === 1">
         <i class="iconfont icon-good"></i>
       </div>
     </el-badge>
@@ -25,7 +25,7 @@
 </template>
 
 <script>
-import { addPraise, canclPraise, addFavorite, canclFavorite, isFavorite } from '@/api/article'
+import { addPraise, canclPraise, addFavorite, canclFavorite, isFavorite, isPraise } from '@/api/article'
 export default {
   props: {
     articleId: String,
@@ -34,6 +34,7 @@ export default {
   name: 'slider',
   data () {
     return {
+      isPrauseState: null, // 是否点赞
       isFavoriteState: null // 是否收藏
     }
   },
@@ -42,9 +43,18 @@ export default {
   watch: {
   },
   mounted () {
+    this.isPraise() // 用户是否点赞
     this.isFavorite() // 用户是否收藏
   },
   methods: {
+    async isPraise () {
+      const { data } = await isPraise(this.articleId)
+      if (data.state === 200) {
+        const type = data.data.state
+        this.isPrauseState = type
+        this.$emit('uploadPraise', type === 1 ? 1 : -1)
+      }
+    },
     // 点赞
     async praise () {
       const params = {
@@ -53,7 +63,7 @@ export default {
       const { data } = await addPraise(params)
       if (data.state === 200) {
         this.$message.success('操作成功')
-        this.$emit('uploadPraise', 1)
+        this.isPraise()
       }
     },
     // 取消点赞
@@ -64,7 +74,7 @@ export default {
       const { data } = await canclPraise(params)
       if (data.state === 200) {
         this.$message.success('操作成功')
-        this.$emit('uploadPraise', -1)
+        this.isPraise()
       }
     },
     // 添加收藏
@@ -75,6 +85,7 @@ export default {
       const { data } = await addFavorite(params)
       if (data.state === 200) {
         this.$message.success('操作成功')
+        this.isFavorite()
         // this.$emit('uploadPraise', -1)
       }
     },
@@ -86,6 +97,7 @@ export default {
       const { data } = await canclFavorite(params)
       if (data.state === 200) {
         this.$message.success('操作成功')
+        this.isFavorite()
         // this.$emit('uploadPraise', -1)
       }
     },

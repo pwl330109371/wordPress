@@ -77,7 +77,8 @@ export default {
             this.$message.success('登录成功!')
             const token = data.token
             setCookie('token', token)
-            this.$store.dispatch('user/getInfo')
+            const userId = data.userId
+            this.$store.dispatch('user/getInfo', userId)
             this.$emit('closeDialog')
           } else {
             this.$message.error(data.msg)

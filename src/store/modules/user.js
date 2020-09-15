@@ -16,9 +16,9 @@ export default {
   },
   actions: {
     // get user info
-    getInfo ({ commit }) {
+    getInfo ({ commit }, userId) {
       return new Promise((resolve, reject) => {
-        getUserInfo().then(response => {
+        getUserInfo(userId).then(response => {
           const data = response.data
           commit('SetUserData', data)
           resolve(data)

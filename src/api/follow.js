@@ -17,3 +17,11 @@ export function canclFollow (data) {
     data
   })
 }
+
+// 取消关注
+export function isFollow (authorId) {
+  return serve({
+    url: '/api/follow/isFollow?authorId=' + authorId,
+    method: 'GET'
+  })
+}

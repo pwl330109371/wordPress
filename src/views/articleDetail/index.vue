@@ -15,8 +15,8 @@
             </div>
           </div>
           <div class="follow" v-if="userId !== userInfo.id">
-            <el-button type="success" size="mini" v-if="!articleDetail.isFollow" @click="addFollow">关注</el-button>
-            <el-button type="success" plain size="mini" v-else @click="canclFollow">取消关注</el-button>
+            <el-button type="success" size="mini" v-if="isFollowState === 2" @click="addFollow">关注</el-button>
+            <el-button type="success" plain size="mini" v-if="isFollowState === 1" @click="canclFollow">取消关注</el-button>
           </div>
         </div>
         <div class="article-title">{{articleDetail.title}}</div>
@@ -38,7 +38,7 @@ import 'highlight.js/styles/atom-one-dark.css'
 import hljs from 'highlight.js'
 import { parseTime } from '@/utils'
 import { getArticleDetail } from '@/api/article'
-import { addFollow, canclFollow } from '@/api/follow'
+import { isFollow, addFollow, canclFollow } from '@/api/follow'
 import { mapState } from 'vuex'
 import slider from './components/Slider'
 const highlightCode = () => {
@@ -50,6 +50,7 @@ const highlightCode = () => {
 export default {
   data () {
     return {
+      isFollowState: 2,
       loading: true, // loading
       articleDetail: {}, // 详情数据
       userInfo: {} // 用户信息
@@ -79,6 +80,11 @@ export default {
     }
   },
   methods: {
+    async isFollow (id) {
+      const { data } = await isFollow(id)
+      console.log(data)
+      this.isFollowState = data.data.state
+    },
     // 获取详情数据
     async getArticleDetail () {
       const loading = this.$loading({
@@ -90,8 +96,10 @@ export default {
       const { data } = await getArticleDetail(this.articleId)
       this.articleDetail = data
       this.userInfo = data.authorInfo
+      this.isFollow(data.authorInfo.id)
       loading.close()
     },
+    // 添加关注
     async addFollow () {
       const params = {
         userId: this.userId,
@@ -100,9 +108,10 @@ export default {
       const { data } = await addFollow(params)
       if (data.state === 200) {
         this.$message.success('关注成功!')
-        this.articleDetail.isFollow = true
+        this.isFollow(this.userInfo.id)
       }
     },
+    // 取消关注
     async canclFollow () {
       const params = {
         userId: this.userId,
@@ -111,9 +120,10 @@ export default {
       const { data } = await canclFollow(params)
       if (data.state === 200) {
         this.$message.success('取消关注!')
-        this.articleDetail.isFollow = false
+        this.isFollow(this.userInfo.id)
       }
     },
+    // 更新点赞
     uploadPraise (e) {
       if (e === 1) {
         this.articleDetail.isPraise = true

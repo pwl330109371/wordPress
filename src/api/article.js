@@ -26,6 +26,13 @@ export function getArticleDetail (id) {
   })
 }
 
+export function isPraise (articleId) {
+  return serve({
+    url: '/api/praise/isPraise?articleId=' + articleId,
+    method: 'GET'
+  })
+}
+
 export function addPraise (data) {
   return serve({
     url: '/api/praise/addPraise',

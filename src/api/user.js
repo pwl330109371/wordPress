@@ -19,50 +19,49 @@ export function register (data) {
 }
 
 // 获取用户信息
-export function getUserInfo () {
+export function getUserInfo (userId) {
   return serve({
-    url: '/api/users/current',
+    url: '/api/users/current?userId=' + userId,
     method: 'GET'
   })
 }
 
-// 获取我的文章
-export function getMyArticle (params) {
+// 获取用户文章
+export function getMyArticle (userId) {
   return serve({
-    url: '/api/article/myArticle',
-    method: 'GET',
-    params
-  })
-}
-
-// 获取我的收藏
-export function getMyFavorite () {
-  return serve({
-    url: '/api/favorite/myFavorite',
+    url: '/api/article/myArticle?userId=' + userId,
     method: 'GET'
   })
 }
 
-// 获取我的点赞
-export function getMyPraise () {
+// 获取用户收藏
+export function getMyFavorite (userId) {
   return serve({
-    url: '/api/praise/myPraise',
+    url: '/api/favorite/myFavorite?userId=' + userId,
     method: 'GET'
   })
 }
 
-// 获取我的关注列表
-export function getMyFollow () {
+// 获取用户点赞
+export function getMyPraise (userId) {
   return serve({
-    url: '/api/follow/myFollow',
+    url: '/api/praise/myPraise?userId=' + userId,
     method: 'GET'
   })
 }
 
-// 获取我的粉丝列表
-export function getMyFens () {
+// 获取用户关注列表
+export function getMyFollow (userId) {
   return serve({
-    url: '/api/follow/myFens',
+    url: '/api/follow/myFollow?userId=' + userId,
+    method: 'GET'
+  })
+}
+
+// 获取用户粉丝列表
+export function getMyFens (userId) {
+  return serve({
+    url: '/api/follow/myFens?userId=' + userId,
     method: 'GET'
   })
 }
