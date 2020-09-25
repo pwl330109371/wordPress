@@ -17,8 +17,8 @@
             </div>
             <div class="aticle-title">{{item.title}}</div>
             <div class="aticle-share">
-              <span><i class="el-icon-thumb"></i>17</span>
-              <span><i class="el-icon-chat-dot-square"></i>17</span>
+              <span><i class="iconfont icon-good" :class="item.isPraise ? 'active' : ''"></i>{{item.praiseCount}}</span>
+              <span><i class="el-icon-chat-dot-square"></i>{{item.count}}</span>
             </div>
           </div>
           <div class="aticle-right" v-if="item.articleImg">
@@ -176,6 +176,9 @@ export default {
             cursor: pointer;
             i {
               margin-right: 3px;
+            }
+            i.active {
+              color: #67C23A;
             }
           }
         }
