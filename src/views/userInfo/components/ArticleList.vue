@@ -5,7 +5,7 @@
         class="infinite-list"
         infinite-scroll-immediate='immediate'
         v-infinite-scroll="load"
-        infinite-scroll-disabled="disabled">
+        infinite-scroll-disabled="disabled" v-if="articleList.length > 0">
         <li v-for="item in articleList" :key="item._id" class="infinite-list-item" @click="goArticleDetail(item._id)">
           <div class="aticle-left">
             <div class="user-info">
@@ -26,6 +26,7 @@
           </div>
         </li>
       </ul>
+      <div v-else class="no-more">暂无更多数据...</div>
       <p class="loading-text" v-if="loading">
         <i class="el-icon-loading"></i>
         加载中...

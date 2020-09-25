@@ -20,12 +20,12 @@
             <el-menu-item index="2">用户收藏</el-menu-item>
             <el-menu-item index="3">用户点赞</el-menu-item>
             <el-menu-item index="4">用户关注</el-menu-item>
-            <el-menu-item index="5">粉丝列表</el-menu-item>
+            <!-- <el-menu-item index="5">粉丝列表</el-menu-item> -->
           </el-menu>
         </div>
-        <div class="user-container-list">
-          <article-list v-if="activeIndex == 1 || activeIndex == 2 || activeIndex == 3" :articleList='articleList'></article-list>
-          <user-list v-if="activeIndex == 4 || activeIndex == 5" :follow-list='followList'></user-list>
+        <div class="user-container-list" >
+          <article-list v-if="activeIndex == 1 || activeIndex == 2 || activeIndex == 3" :articleList='articleList' v-loading="loading"></article-list>
+          <user-list v-if="activeIndex == 4 || activeIndex == 5" :follow-list='followList' v-loading="loading"></user-list>
         </div>
       </div>
     </div>
@@ -45,6 +45,7 @@ export default {
   name: '',
   data () {
     return {
+      loading: false,
       activeIndex: '1',
       userInfo: {}, // 用户信息
       articleList: [], // 数据列表
@@ -103,37 +104,44 @@ export default {
     },
     // 获取用户信息
     async getUserInfo () {
+      this.loading = true
       const { data } = await getUserInfo(this.userId)
+      this.loading = false
       this.userInfo = data
     },
     // 获取用户文章列表
     async getMyArticle () {
+      this.loading = true
       const { data } = await getMyArticle(this.userId)
-      console.log(data)
+      this.loading = false
       this.articleList = data
     },
     // 获取用户收藏列表
     async getMyFavorite () {
+      this.loading = true
       const { data } = await getMyFavorite(this.userId)
-      console.log(data)
+      this.loading = false
       this.articleList = data.data
     },
     // 获取用户点赞列表
     async getMyPraise () {
+      this.loading = true
       const { data } = await getMyPraise(this.userId)
-      console.log(data)
+      this.loading = false
       this.articleList = data.data
     },
     // 获取用户关注列表
     async getMyFollow () {
+      this.loading = true
       const { data } = await getMyFollow(this.userId)
-      console.log(data)
+      this.loading = false
       this.followList = data.data
     },
     // 获取用户粉丝列表
     async getMyFens () {
+      this.loading = true
       const { data } = await getMyFens()
-      console.log(data)
+      this.loading = false
       this.followList = data.data
     }
   }

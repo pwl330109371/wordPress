@@ -26,9 +26,9 @@
             <el-dropdown-menu slot="dropdown">
               <el-dropdown-item icon="el-icon-plus" command='1'>写文章</el-dropdown-item>
               <el-dropdown-item icon="el-icon-circle-plus" command='2'>我的主页</el-dropdown-item>
-              <el-dropdown-item icon="el-icon-circle-plus-outline" command='3'>我赞过的</el-dropdown-item>
+              <!-- <el-dropdown-item icon="el-icon-circle-plus-outline" command='3'>我赞过的</el-dropdown-item>
               <el-dropdown-item icon="el-icon-check" command='4'>我的收藏集</el-dropdown-item>
-              <el-dropdown-item icon="el-icon-circle-check" command='5'>设置</el-dropdown-item>
+              <el-dropdown-item icon="el-icon-circle-check" command='5'>设置</el-dropdown-item> -->
               <el-dropdown-item icon="el-icon-circle-check" command='6'>登出</el-dropdown-item>
             </el-dropdown-menu>
           </el-dropdown>

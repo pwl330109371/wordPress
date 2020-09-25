@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-dialog :title="title" :visible.sync="dialogVisible" width='30%'>
+    <el-dialog :title="title" :visible.sync="dialogVisible" width='400px'>
       <Login v-if="type === 1" @closeDialog='closeDialog'></Login>
       <Register v-if="type === 2"></Register>
     </el-dialog>

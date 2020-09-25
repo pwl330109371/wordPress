@@ -62,7 +62,7 @@ export default {
   },
   computed: {
     ...mapState({
-      userId: state => state.user.userInfo.id
+      userId: state => state.user.userInfo._id
     }),
     articleId () {
       return this.$route.query.articleId
