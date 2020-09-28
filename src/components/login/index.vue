@@ -23,6 +23,7 @@
 import { isUserName } from '@/utils/validate'
 import { login } from '@/api/user'
 import { setCookie } from '@/utils/auth'
+import { mapMutations } from 'vuex'
 export default {
   name: 'login',
   data () {
@@ -63,6 +64,9 @@ export default {
     }
   },
   methods: {
+    ...mapMutations({
+      hideModal: 'app/hideModal'
+    }),
     submitForm (formName) {
       this.$refs[formName].validate(async (valid) => {
         if (valid) {
@@ -79,7 +83,7 @@ export default {
             setCookie('token', token)
             const userId = data.userId
             this.$store.dispatch('user/getInfo', userId)
-            this.$emit('closeDialog')
+            this.hideModal()
           } else {
             this.$message.error(data.msg)
           }

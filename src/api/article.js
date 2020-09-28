@@ -18,10 +18,18 @@ export function getArticleList (data) {
   })
 }
 
-// 获取文章详情
+// 获取文章详情 登录状态
 export function getArticleDetail (id) {
   return serve({
     url: '/api/article/detail?id=' + id,
+    method: 'GET'
+  })
+}
+
+// 获取文章详情 未登录状态
+export function getArticle (id) {
+  return serve({
+    url: '/api/article/getDetail?id=' + id,
     method: 'GET'
   })
 }

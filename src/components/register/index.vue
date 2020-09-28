@@ -25,6 +25,7 @@
 <script>
 import { isUserName } from '@/utils/validate'
 import { register } from '@/api/user'
+import { mapMutations } from 'vuex'
 export default {
   name: 'register',
   data () {
@@ -78,6 +79,9 @@ export default {
     }
   },
   methods: {
+    ...mapMutations({
+      hideModal: 'app/hideModal'
+    }),
     submitForm (formName) {
       this.$refs[formName].validate(async (valid) => {
         if (valid) {
@@ -87,7 +91,12 @@ export default {
             password: this.ruleForm.password
           }
           const { data } = await register(params)
-          console.log(data)
+          if (data.state === 200) {
+            this.$message.success('注册成功！')
+            this.hideModal()
+          } else {
+            this.$message.error(data.msg)
+          }
           this.isLoading = false
         } else {
           console.log('error submit!!')

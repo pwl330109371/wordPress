@@ -35,14 +35,14 @@
         </div>
       </div>
     </div>
-    <handDialog :type='type' ref='handDialog'></handDialog>
+    <handDialog></handDialog>
   </div>
 </template>
 
 <script>
 import handDialog from '@/components/handDialog'
 import Menu from '@/layout/components/menu'
-import { mapState } from 'vuex'
+import { mapState, mapActions } from 'vuex'
 export default {
   data () {
     return {
@@ -63,10 +63,12 @@ export default {
     console.log(this.userInfo)
   },
   methods: {
+    ...mapActions({
+      showModal: 'app/showModal'
+    }),
     // 登录注册
     showDialog (type) {
-      this.type = type
-      this.$refs.handDialog.showDialog()
+      this.showModal(type)
     },
     // 发布文章
     addArticle () {

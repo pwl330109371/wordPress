@@ -4,11 +4,16 @@ export default {
   namespaced: true,
   state: {
     path: 'localhost:3000/',
+    type: 1, // 1登录 2注册
     dialogVisible: false // 全局显示登录注册页面
   },
   mutations: {
     showModal (state, data) {
-      state.dialogVisible = data
+      state.dialogVisible = true
+      state.type = data
+    },
+    hideModal (state) {
+      state.dialogVisible = false
     }
     // SetUserData (state, data) {
     //   state.userInfo = data
@@ -16,8 +21,8 @@ export default {
     // }
   },
   actions: {
-    showModal ({ commit }, states) {
-      commit('showModal', states)
+    showModal ({ commit }, state) {
+      commit('showModal', state)
     }
     // ...
   },

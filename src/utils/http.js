@@ -7,7 +7,7 @@ import qs from 'qs'
 import { getCookie } from '@/utils/auth'
 import { MessageBox } from 'element-ui'
 import store from '@/store'
-import route from '@/router'
+// import route from '@/router'
 // 设置axios请求默认配置
 const serve = axios.create({
   baseURL: '', // api的base_url前缀
@@ -64,8 +64,8 @@ serve.interceptors.response.use(
             type: 'warning'
           }).then(() => {
             store.dispatch('user/loginOut').then(() => {
-              route.replace('/index')
-              // store.dispatch('app/showModal')
+              // route.replace('/index')
+              store.dispatch('app/showModal', 1)
             })
           })
           break

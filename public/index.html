@@ -7,6 +7,7 @@
     <link rel="icon" href="<%= BASE_URL %>favicon.ico">
     <title><%= htmlWebpackPlugin.options.title %></title>
     <link rel="stylesheet" href="//at.alicdn.com/t/font_2032560_z7i0lj3gmpj.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome/css/font-awesome.min.css">
     <!-- <link rel="stylesheet" href="./sticle/dark.css"> -->
     <!-- <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.2/styles/default.min.css"> -->
     <!-- <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.1.2/build/styles/default.min.css"> -->
@@ -19,19 +20,9 @@
     <div id="app"></div>
     <!-- built files will be auto injected -->
   </body>
-  <script src="./js/canvs.js"></script>
-  <script src="./live2dw/lib/L2Dwidget.min.js"></script>
-  <script>
-    L2Dwidget.init({
-      pluginRootPath:"live2dw/",
-      pluginJsPath:"lib/",
-      pluginModelPath:"assets/",
-      tagMode:!1,debug:!1,model:{scale:2,
-      jsonPath:"live2dw/assets/asuna_33.model.json"},
-      display:{position:"left",width:130,height:210,hOffset:50},
-      mobile:{show:!1},log:!1
-    })
-  </script>
+  <script src="./js/autoload.js"></script>
+  <!-- <script src="./js/canvs.js"></script>
+  <script src="./live2dw/lib/L2Dwidget.min.js"></script> -->
   <!-- <script src="https://myCDN.com/prism@v1.x/components/prism-core.min.js"></script> -->
 	<!-- <script src="https://myCDN.com/prism@v1.x/plugins/autoloader/prism-autoloader.min.js"></script> -->
   <!-- <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.2/highlight.min.js"></script> -->

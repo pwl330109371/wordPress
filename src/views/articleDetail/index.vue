@@ -1,6 +1,6 @@
 <template>
   <div class="article-content">
-    <slider :article-id='articleId' :article-detail='articleDetail' @uploadPraise='uploadPraise'></slider>
+    <slider :article-id='articleId' :article-detail='articleDetail' :comment-count='commentCount' @uploadPraise='uploadPraise'></slider>
     <div class="article-detail">
       <div class="head">
         <div class="head-user">
@@ -25,6 +25,7 @@
             <code v-html="articleDetail.content"></code>
           </pre>
         </article>
+        <comment :article-id='articleId' :commnet-list='commnetList' @updataComment='updataComment'></comment>
       </div>
       <div class="user-info">
         <!-- 用户信息 -->
@@ -37,10 +38,13 @@
 import 'highlight.js/styles/atom-one-dark.css'
 import hljs from 'highlight.js'
 import { parseTime } from '@/utils'
-import { getArticleDetail } from '@/api/article'
+import { getArticleDetail, getArticle } from '@/api/article'
 import { isFollow, addFollow, canclFollow } from '@/api/follow'
+import { getCommentList } from '@/api/comment'
 import { mapState } from 'vuex'
 import slider from './components/Slider'
+import comment from './components/Comment'
+
 const highlightCode = () => {
   const block = document.querySelectorAll('pre code')
   block.forEach((el) => {
@@ -53,11 +57,19 @@ export default {
       isFollowState: 2,
       loading: true, // loading
       articleDetail: {}, // 详情数据
-      userInfo: {} // 用户信息
+      userInfo: {}, // 用户信息
+      commnetList: [], // 评论列表
+      commentCount: 0 // 评论数量
     }
   },
   mounted () {
-    this.getArticleDetail()
+    // 登录 跟 没有登录调用不一样的接口
+    if (this.userId) {
+      this.getArticleDetail()
+    } else {
+      this.getArticle()
+    }
+    this.getCommentList() // 获取评论列表
     highlightCode()
   },
   computed: {
@@ -68,18 +80,30 @@ export default {
       return this.$route.query.articleId
     }
   },
+  watch: {
+    userId (val) {
+      if (val) {
+        this.getArticleDetail()
+      } else {
+        this.getArticle()
+      }
+    }
+  },
   components: {
-    slider
+    slider,
+    comment
   },
   updated () {
     highlightCode()
   },
   filters: {
+    // 时间格式过滤
     parseTime (value) {
       return parseTime(value, '{y}-{m}-{d}')
     }
   },
   methods: {
+    // 是否关注作者
     async isFollow (id) {
       const { data } = await isFollow(id)
       console.log(data)
@@ -97,6 +121,19 @@ export default {
       this.articleDetail = data
       this.userInfo = data.authorInfo
       this.isFollow(data.authorInfo.id)
+      loading.close()
+    },
+    // 没有登录获取详情的接口
+    async getArticle () {
+      const loading = this.$loading({
+        lock: true,
+        text: 'Loading...',
+        spinner: 'el-icon-loading',
+        background: 'rgba(255, 255, 255, 0.8)'
+      })
+      const { data } = await getArticle(this.articleId)
+      this.articleDetail = data
+      this.userInfo = data.authorInfo
       loading.close()
     },
     // 添加关注
@@ -131,6 +168,15 @@ export default {
         this.articleDetail.isPraise = false
       }
       this.articleDetail.praiseCount = this.articleDetail.praiseCount + e
+    },
+    updataComment () {
+      this.getCommentList()
+    },
+    // 获取评论列表
+    async getCommentList () {
+      const { data } = await getCommentList(this.articleId)
+      this.commnetList = data.data
+      this.commentCount = data.data.length
     }
   }
 }

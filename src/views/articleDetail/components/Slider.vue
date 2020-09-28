@@ -16,7 +16,7 @@
         <i class="iconfont icon-collection"></i>
       </div>
     </el-badge>
-    <el-badge :value="12" class="item">
+    <el-badge :value="commentCount" class="item">
       <div class="praise">
         <i class="iconfont icon-comments"></i>
       </div>
@@ -26,25 +26,38 @@
 
 <script>
 import { addPraise, canclPraise, addFavorite, canclFavorite, isFavorite, isPraise } from '@/api/article'
+import { mapState } from 'vuex'
 export default {
   props: {
     articleId: String,
-    articleDetail: Object
+    articleDetail: Object,
+    commentCount: Number
   },
   name: 'slider',
   data () {
     return {
-      isPrauseState: null, // 是否点赞
-      isFavoriteState: null // 是否收藏
+      isPrauseState: 2, // 是否点赞
+      isFavoriteState: 2 // 是否收藏
     }
   },
   computed: {
+    ...mapState({
+      userId: state => state.user.userInfo._id
+    })
   },
   watch: {
+    userId (val) {
+      if (val) {
+        this.isPraise() // 用户是否点赞
+        this.isFavorite() // 用户是否收藏
+      }
+    }
   },
   mounted () {
-    this.isPraise() // 用户是否点赞
-    this.isFavorite() // 用户是否收藏
+    if (this.userId) {
+      this.isPraise() // 用户是否点赞
+      this.isFavorite() // 用户是否收藏
+    }
   },
   methods: {
     async isPraise () {

@@ -1,7 +1,7 @@
 <template>
   <div>
-    <el-dialog :title="title" :visible.sync="dialogVisible" width='400px'>
-      <Login v-if="type === 1" @closeDialog='closeDialog'></Login>
+    <el-dialog :title="title" :visible.sync="dialogVisible" width='400px' :before-close='hideModal'>
+      <Login v-if="type === 1"></Login>
       <Register v-if="type === 2"></Register>
     </el-dialog>
   </div>
@@ -10,19 +10,19 @@
 <script>
 import Login from '@/components/login'
 import Register from '@/components/register'
+import { mapState, mapMutations } from 'vuex'
+// before-close
 export default {
   data () {
     return {
-      dialogVisible: false
-    }
-  },
-  props: {
-    type: {
-      type: Number,
-      default: null
+      // dialogVisible: false
     }
   },
   computed: {
+    ...mapState({
+      dialogVisible: state => state.app.dialogVisible,
+      type: state => state.app.type
+    }),
     title () {
       return this.type === 1 ? '登录' : '注册'
     }
@@ -32,12 +32,9 @@ export default {
     Register
   },
   methods: {
-    showDialog () {
-      this.dialogVisible = true
-    },
-    closeDialog () {
-      this.dialogVisible = false
-    }
+    ...mapMutations({
+      hideModal: 'app/hideModal'
+    })
   }
 }
 </script>
