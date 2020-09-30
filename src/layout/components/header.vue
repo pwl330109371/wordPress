@@ -105,7 +105,9 @@ export default {
           this.$router.push('/userInfo')
           break
         case 6:
-          this.$store.dispatch('user/loginOut')
+          this.$store.dispatch('user/loginOut').then(() => {
+            this.$router.replace('/')
+          })
           break
         default:
           this.$router.push('/userInfo')

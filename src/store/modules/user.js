@@ -28,8 +28,11 @@ export default {
       })
     },
     loginOut ({ commit }) {
-      commit('SetUserData', '')
-      removeCookie('token')
+      return new Promise((resolve, reject) => {
+        commit('SetUserData', '')
+        removeCookie('token')
+        resolve()
+      })
     }
   },
   getters: {
