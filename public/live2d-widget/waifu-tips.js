@@ -1,3 +1,6 @@
+/* eslint-disable no-return-assign */
+/* eslint-disable no-undef */
+/* eslint-disable no-mixed-spaces-and-tabs */
 /* eslint-disable no-tabs */
 /*
  * Live2D Widget
@@ -79,7 +82,7 @@ function loadWidget (config) {
     })
     document.querySelector('#waifu-tool .fa-info-circle').addEventListener('click', () => {
       //   open('https://github.com/stevenjoezhang/live2d-widget')
-	  open('https://github.com/pwl330109371')
+	    open('https://github.com/pwl330109371')
     })
     document.querySelector('#waifu-tool .fa-times').addEventListener('click', () => {
       localStorage.setItem('waifu-display', Date.now())
