@@ -34,6 +34,7 @@ export function getArticle (id) {
   })
 }
 
+// 是否点赞
 export function isPraise (articleId) {
   return serve({
     url: '/api/praise/isPraise?articleId=' + articleId,
@@ -41,6 +42,7 @@ export function isPraise (articleId) {
   })
 }
 
+// 点赞
 export function addPraise (data) {
   return serve({
     url: '/api/praise/addPraise',
@@ -49,6 +51,7 @@ export function addPraise (data) {
   })
 }
 
+// 取消点赞
 export function canclPraise (data) {
   return serve({
     url: '/api/praise/canclPraise',
@@ -57,6 +60,7 @@ export function canclPraise (data) {
   })
 }
 
+// 收藏
 export function addFavorite (data) {
   return serve({
     url: '/api/favorite/addFavorite',
@@ -65,6 +69,7 @@ export function addFavorite (data) {
   })
 }
 
+// 取消收藏
 export function canclFavorite (data) {
   return serve({
     url: '/api/favorite/canclFavorite',
@@ -73,6 +78,7 @@ export function canclFavorite (data) {
   })
 }
 
+// 是否收藏
 export function isFavorite (params) {
   return serve({
     url: '/api/favorite/isFavorite',

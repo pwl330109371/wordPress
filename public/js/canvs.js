@@ -4,8 +4,7 @@
  * Version: v1.0.1
  * GitHub: https://github.com/hustcc/canvas-nest.js
 **/
-!
-function() {
+function () {
     function n(n, e, t) {
         return n.getAttribute(e) || t
     }
@@ -83,4 +82,4 @@ function() {
         i()
     },
     100)
-} ();
+} ()

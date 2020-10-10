@@ -1,1 +1,0 @@
-(window.webpackJsonp=window.webpackJsonp||[]).push([["chunk-2d0f0006"],{"9b07":function(t,n,e){"use strict";e.r(n);var a={data:function(){return{msg:""}},methods:{}},c=e("9ca4"),s=Object(c.a)(a,(function(){var t=this.$createElement;return(this._self._c||t)("div",[this._v(" 云空间 ")])}),[],!1,null,"296a0ac6",null);n.default=s.exports}}]);
