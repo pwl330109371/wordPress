@@ -8,7 +8,7 @@
           <el-input
           type="textarea"
           :rows="3"
-          placeholder="请输入内容"
+          placeholder="请输入评论内容..."
           maxlength="300"
           show-word-limit
           v-model="commentContent">
@@ -49,7 +49,7 @@ export default {
   },
   data () {
     return {
-      circleUrl: 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png',
+      circleUrl: 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png', // 默认头像
       commentContent: '' // 评论内容
     }
   },
@@ -61,6 +61,7 @@ export default {
         articleId: this.articleId
       }
       await addComment(params)
+      this.commentContent = ''
       this.$emit('updataComment')
     }
   },

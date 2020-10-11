@@ -176,6 +176,7 @@ export default {
       }
       this.articleDetail.praiseCount = this.articleDetail.praiseCount + e
     },
+    // 更新评论列表
     updataComment () {
       this.getCommentList()
     },
