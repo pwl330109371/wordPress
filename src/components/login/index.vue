@@ -11,7 +11,7 @@
         <el-form-item>
           <div class="text-right">
             <el-button type="primary" :loading="isLoading" @click="submitForm('ruleForm')">提交</el-button>
-            <el-button @click="resetForm('ruleForm')">重置</el-button>
+            <el-button @click="resetForm('ruleForm')">注册</el-button>
           </div>
         </el-form-item>
       </el-form>

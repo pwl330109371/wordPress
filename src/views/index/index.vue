@@ -11,14 +11,14 @@
             <div class="user-info">
               <span>{{item.author}}#</span>
               <em>{{item.date | fromDate}}#</em>
-              <span>{{item.author}}#</span>
-              <span>面试</span>
+              <!-- <span>{{item.author}}#</span> -->
+              <span>vue</span>
               <span>/javascript#</span>
             </div>
             <div class="aticle-title">{{item.title}}</div>
             <div class="aticle-share">
               <span><i class="iconfont icon-good" :class="item.isPraise ? 'active' : ''"></i>{{item.praiseCount}}</span>
-              <span><i class="el-icon-chat-dot-square"></i>{{item.count}}</span>
+              <span><i class="el-icon-view"></i>{{item.count}}</span>
             </div>
           </div>
           <div class="aticle-right" v-if="item.articleImg">

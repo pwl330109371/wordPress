@@ -238,6 +238,9 @@ export default {
         margin: 20px 0;
         color: #333;
       }
+      article {
+        max-width: 1200px;
+      }
     }
     .user-info {
       width: 240px;

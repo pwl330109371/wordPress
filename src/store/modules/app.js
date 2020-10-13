@@ -1,3 +1,12 @@
+/*
+ * @文件描述: 文件描述
+ * @作者: pwl
+ * @Date: 2020-09-25
+ * @LastEditors: Su Yunzheng
+ * @LastEditTime: 2020-10-13
+ * @Description: 1
+ * @Author: pwl
+ */
 /* eslint-disable prefer-promise-reject-errors */
 // import router from '@/router'
 export default {
@@ -9,6 +18,7 @@ export default {
   },
   mutations: {
     showModal (state, data) {
+      console.log(1123123)
       state.dialogVisible = true
       state.type = data
     },

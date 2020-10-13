@@ -35,31 +35,44 @@
         </div>
       </div>
     </div>
+    <tagList v-show="fullPath === '/index'"></tagList>
     <handDialog></handDialog>
   </div>
 </template>
 
 <script>
 import handDialog from '@/components/handDialog'
+import tagList from './tagList'
 import Menu from '@/layout/components/menu'
 import { mapState, mapActions } from 'vuex'
 export default {
   data () {
     return {
       type: null,
-      searchVal: '' // 搜索
+      searchVal: '', // 搜索
+      fullPath: '/index'
     }
   },
   computed: {
     ...mapState({
       userInfo: state => state.user.userInfo
-    })
+    }),
+    path () {
+      return this.$route.path
+    }
+  },
+  watch: {
+    '$route' (val) {
+      this.fullPath = val.fullPath
+    }
   },
   components: {
     handDialog,
-    Menu
+    Menu,
+    tagList
   },
   mounted () {
+    console.log('1111', this.$route)
     console.log(this.userInfo)
   },
   methods: {
@@ -122,7 +135,7 @@ export default {
   .headers{
     overflow: hidden;
     background: #fff;
-    height: 60px;
+    // height: 60px;
     .container {
       display: flex;
       align-items: center;

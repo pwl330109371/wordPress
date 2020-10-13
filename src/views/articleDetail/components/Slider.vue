@@ -1,6 +1,6 @@
 <template>
   <div class="user-setting">
-    <el-badge :value="articleDetail.praiseCount" class="item">
+    <el-badge :value="articleDetail.praiseCount === 0 ? '' : articleDetail.praiseCount" class="item">
       <div class="praise" @click="praise" v-if="isPrauseState === 2">
         <i class="iconfont icon-good"></i>
       </div>
@@ -16,7 +16,7 @@
         <i class="iconfont icon-collection"></i>
       </div>
     </el-badge>
-    <el-badge :value="commentCount" class="item">
+    <el-badge :value="commentCount === 0 ? '' : commentCount" class="item">
       <div class="praise">
         <i class="iconfont icon-comments"></i>
       </div>

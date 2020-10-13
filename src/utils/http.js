@@ -1,6 +1,10 @@
 /*
  * @文件描述: 请求配置
- * @作者: L
+ * @作者: pwl
+ * @Date: 2020-09-25
+ * @LastEditors: Su Yunzheng
+ * @LastEditTime: 2020-10-13
+ * @Author: pwl
  */
 import axios from 'axios'
 import qs from 'qs'
@@ -41,7 +45,6 @@ serve.interceptors.request.use(
 // axios响应拦截
 serve.interceptors.response.use(
   response => {
-    console.log(response)
     const res = response
     if (res.status === 200) {
       return res
