@@ -1,10 +1,10 @@
 /*
  * @文件描述: 请求配置
- * @作者: pwl
+ * @作者: L
  * @Date: 2020-09-25
- * @LastEditors: Su Yunzheng
+ * @LastEditors: L
  * @LastEditTime: 2020-10-13
- * @Author: pwl
+ * @Author: L
  */
 import axios from 'axios'
 import qs from 'qs'

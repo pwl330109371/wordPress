@@ -1,11 +1,11 @@
 /*
  * @文件描述: 文件描述
- * @作者: pwl
+ * @作者: L
  * @Date: 2020-09-25
- * @LastEditors: Su Yunzheng
+ * @LastEditors: L
  * @LastEditTime: 2020-10-13
  * @Description: roter
- * @Author: Su Yunzheng
+ * @Author: L
  */
 import router from '../router'
 import store from '../store'

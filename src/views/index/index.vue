@@ -22,7 +22,7 @@
             </div>
           </div>
           <div class="aticle-right" v-if="item.articleImg">
-              <el-image :src="'http://192.168.0.106:3000/upload/' + item.articleImg" lazy fit='contain'></el-image>
+              <el-image :src="'http://127.0.0.1:3000/upload/' + item.articleImg" lazy fit='contain'></el-image>
           </div>
         </li>
       </ul>
@@ -38,7 +38,7 @@
 <script>
 import { getArticleList } from '@/api/article'
 import { formatTime } from '@/utils'
-
+import { Debounce } from '@/utils/debounce'
 // import Prism from 'prismjs'
 
 export default {
@@ -49,7 +49,6 @@ export default {
       currentPage: 1,
       noData: false, // 是否能加载
       tag: '', // 根据标签分类查询
-      keyword: '', // 模糊搜索
       loading: false, // 是否加载中
       immediate: false,
       scroll: null // 记录滚动高度
@@ -61,10 +60,23 @@ export default {
     },
     disabled () {
       return this.loading || this.noMore
+    },
+    // 搜索的值
+    searchVal () {
+      return this.$store.state.app.searchVal
+    }
+  },
+  watch: {
+    // 监听输入值的改变调用接口
+    searchVal (val) {
+      this.articleList = []
+      this.debouncednewFormName()
     }
   },
   mounted () {
     this.getArticleList()
+    // `debounce` 是一个限制操作频率的函数。防抖操作，在0.5秒内连续更改数据不进行查询
+    this.debouncednewFormName = Debounce(this.getArticleList, 500)
   },
   activated () {
     if (this.scroll > 0) {
@@ -81,8 +93,8 @@ export default {
     async getArticleList () {
       const params = {
         pageSize: this.pageSize,
-        currentPage: this.currentPage
-        // keyword: this.keyword,
+        currentPage: this.currentPage,
+        keyword: this.searchVal
         // tag: this.tag
       }
       const { data } = await getArticleList(params)

@@ -1,11 +1,11 @@
 /*
  * @文件描述: 文件描述
- * @作者: pwl
+ * @作者: L
  * @Date: 2020-09-25
- * @LastEditors: Su Yunzheng
- * @LastEditTime: 2020-10-11
+ * @LastEditors: pwl
+ * @LastEditTime: 2020-10-16
  * @Description: 图片上传
- * @Author: Su Yunzheng
+ * @Author: L
  */
 import serve from '@/utils/http'
 // 图片上传

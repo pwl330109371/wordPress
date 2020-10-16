@@ -1,8 +1,8 @@
 /*
  * @name: 文章详情页
- * @Author: mikey.zhaopeng
+ * @Author: L
  * @Date: 2020-09-30 17:45:08
- * @Last Modified by: mikey.zhaopeng
+ * @Last Modified by:L
  * @Last Modified time: 2020-09-30 17:46:00
  */
 <template>

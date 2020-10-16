@@ -35,14 +35,14 @@
         </div>
       </div>
     </div>
-    <tagList v-show="fullPath === '/index'"></tagList>
+    <!-- <tagList v-show="fullPath === '/index'"></tagList> -->
     <handDialog></handDialog>
   </div>
 </template>
 
 <script>
 import handDialog from '@/components/handDialog'
-import tagList from './tagList'
+// import tagList from './tagList'
 import Menu from '@/layout/components/menu'
 import { mapState, mapActions } from 'vuex'
 export default {
@@ -64,12 +64,16 @@ export default {
   watch: {
     '$route' (val) {
       this.fullPath = val.fullPath
+    },
+    searchVal (val) {
+      console.log(val)
+      this.searchHand(val)
     }
   },
   components: {
     handDialog,
-    Menu,
-    tagList
+    Menu
+    // tagList
   },
   mounted () {
     console.log('1111', this.$route)
@@ -77,7 +81,8 @@ export default {
   },
   methods: {
     ...mapActions({
-      showModal: 'app/showModal'
+      showModal: 'app/showModal',
+      searchHand: 'app/searchHand'
     }),
     // 登录注册
     showDialog (type) {
