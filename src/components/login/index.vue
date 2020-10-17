@@ -11,7 +11,7 @@
         <el-form-item>
           <div class="text-right">
             <el-button type="primary" :loading="isLoading" @click="submitForm('ruleForm')">提交</el-button>
-            <el-button @click="resetForm('ruleForm')">注册</el-button>
+            <el-button @click="register">注册</el-button>
           </div>
         </el-form-item>
       </el-form>
@@ -23,7 +23,7 @@
 import { isUserName } from '@/utils/validate'
 import { login } from '@/api/user'
 import { setCookie } from '@/utils/auth'
-import { mapMutations } from 'vuex'
+import { mapMutations, mapActions } from 'vuex'
 export default {
   name: 'login',
   data () {
@@ -64,6 +64,9 @@ export default {
     }
   },
   methods: {
+    ...mapActions({
+      showModal: 'app/showModal'
+    }),
     ...mapMutations({
       hideModal: 'app/hideModal'
     }),
@@ -95,8 +98,8 @@ export default {
         }
       })
     },
-    resetForm (formName) {
-      this.$refs[formName].resetFields()
+    register () {
+      this.showModal(2)
     }
   }
 }

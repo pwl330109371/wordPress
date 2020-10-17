@@ -22,7 +22,7 @@
             </div>
           </div>
           <div class="aticle-right" v-if="item.articleImg">
-              <el-image :src="'http://127.0.0.1:3000/upload/' + item.articleImg" lazy fit='contain'></el-image>
+              <el-image :src="'http://115.159.117.118:3000/upload/' + item.articleImg" lazy fit='contain'></el-image>
           </div>
         </li>
       </ul>
